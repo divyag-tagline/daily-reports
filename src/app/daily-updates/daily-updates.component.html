@@ -76,38 +76,79 @@
               <div class="form-group position-relative">
                 <label class="form-label">List of Completed Tasks :</label>
                 <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="complateTask">
-                    <div
-                      class="multi-field"
+                  <div class="multi-fields" formArrayName="completeTask">
+                    <ng-container
                       *ngFor="let task of completeTasks.controls; let i = index"
                     >
-                      <input
-                        type="text"
-                        name="completedtasks"
-                        class="form-control custom-input list_of_completed_tasks"
-                        placeholder="Completed task"
-                        [formControlName]="i"
-                      />
-                      <button
-                        type="button"
-                        class="custom-btn remove-field rct"
-                        style="display: none"
+                      <div class="multi-field" [formGroupName]="i">
+                        <input
+                          type="text"
+                          name="completedtasks"
+                          class="form-control custom-input list_of_completed_tasks"
+                          placeholder="Completed task"
+                          formControlName="completeingTask"
+                        />
+                        <ng-container
+                          *ngIf="
+                            completeTaskValidation(i).controls[
+                              'completeingTask'
+                            ].dirty && toggle
+                          "
+                        >
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && task.get('completeingTask')?.dirty
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="removeOrClearCompletingTask(i)"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </ng-container>
+                        <button
+                          type="button"
+                          class="custom-add-btn add-field ml-2"
+                          (click)="
+                            completeTaskValidation(i).controls[
+                              'completeingTask'
+                            ].dirty
+                              ? onAddTaks()
+                              : (subbmitted = true)
+                          "
+                        >
+                          <i class="fas fa-plus"></i>
+                        </button>
+                        <br />
+                      </div>
+                      <ng-container
+                        *ngIf="
+                          (subbmitted &&
+                            completeTaskValidation(i).controls[
+                              'completeingTask'
+                            ].pristine) ||
+                          (completeTaskValidation(i).controls['completeingTask']
+                            .touched &&
+                            completeTaskValidation(i).controls[
+                              'completeingTask'
+                            ].invalid &&
+                            completeTaskValidation(i).controls[
+                              'completeingTask'
+                            ].pristine)
+                        "
                       >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="custom-add-btn add-field ml-2"
-                        (click)="onAddTaks()"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                      <span></span>
-                    </div>
+                        <p
+                          class="err_list_of_completed_tasks"
+                          style="color: red"
+                        >
+                          Please fill this first
+                        </p>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                  <p class="err_list_of_completed_tasks" style="color: red">
-                    Please fill this first
-                  </p>
                 </div>
               </div>
 
@@ -247,6 +288,9 @@
           <div class="col-lg-6">
             <div class="right-side-content">
               <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
+                <div id="hr"><hr /></div>
+              </ng-container>
+              <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
                 <div
                   id="email-subject"
                   class="email-subject d-flex justify-content-between"
@@ -267,7 +311,6 @@
                   <p></p>
                 </div>
               </ng-container>
-              <div id="hr"><hr /></div>
               <div id="subject">
                 <h4 *ngIf="dailyUpdatesControls['clientName'].dirty">
                   <span id="set_client_name"
@@ -277,7 +320,7 @@
                 <ng-container>
                   <p
                     class="subject-style"
-                    *ngIf="dailyUpdatesControls['projectName'].dirty"
+                    *ngIf="dailyUpdatesControls['clientName'].dirty"
                   >
                     <span id="set_project_name_f"
                       >Following are the updates for
@@ -287,32 +330,34 @@
                   </p>
                 </ng-container>
                 <br />
-                <div>
+                <ng-container>
                   <div id="lct_msg">
-                    <u><b><br />List of completed tasks:</b></u>
+                    <u
+                      ><b><br />List of completed tasks:</b></u
+                    >
                   </div>
-                </div>
-                <div>
-                  <!-- <ng-container *ngIf="complateTasks.controls['complateTask'].get('age')"></ng-container> -->
-                  <ng-container
-                    *ngFor="
-                      let completetask of this.dailyUpdates.value.complateTask;
-                      let i = index
-                    "
-                  >
-                    <!-- <ol
+                  <div>
+                    <ng-container
+                      *ngFor="
+                        let completetask of completeTasks.value;
+                        let i = index
+                      "
+                    >
+                      <!-- <ol
                       [id]="i"
                       *ngFor="
                         let completetask of this.dailyUpdates.value
-                          .complateTask;
+                          .completeTask;
                         let i = index
                       "
                     > -->
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <b>{{ i + 1 }}. {{ completetask }}</b><br/>
-                    <!-- </ol> -->
-                  </ng-container>
-                </div>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <b>{{ i + 1 }}. {{ completetask.completeingTask }}</b
+                      ><br />
+                      <!-- </ol> -->
+                    </ng-container>
+                  </div>
+                </ng-container>
                 <div id="lpt_msg"></div>
                 <div>
                   <ol id="lpt"></ol>
