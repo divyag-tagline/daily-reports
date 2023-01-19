@@ -94,7 +94,7 @@
                           [ngStyle]="{
                             display: toggle ? 'block' : 'none'
                           }"
-                          (click)="removeOrClearCompletingTask(i)"
+                          (click)="removeOrClearCompletingTask(i,'addCompleteTask')"
                         >
                           <i class="fas fa-trash"></i>
                         </button>
@@ -104,9 +104,9 @@
                           (click)="
                             completeTaskValidation(i).controls[
                               'completeingTask'
-                            ].dirty
-                              ? onAddTaks()
-                              : (subbmitted = true)
+                            ].dirty && dailyUpdatesControls['completeTask'].valid
+                              ? onAddTaks('addCompleteTask',completeTasks.controls[i])
+                              : completed = true
                           "
                         >
                           <i class="fas fa-plus"></i>
@@ -115,7 +115,7 @@
                       </div>
                       <ng-container
                         *ngIf="
-                          (subbmitted &&
+                          (completed &&
                             completeTaskValidation(i).controls[
                               'completeingTask'
                             ].pristine) ||
@@ -144,28 +144,69 @@
               <div class="form-group position-relative">
                 <label class="form-label">List of In-Progress Tasks:</label>
                 <div class="multi-field-wrapper">
-                  <div class="multi-fields">
-                    <div class="multi-field">
-                      <input
-                        type="text"
-                        name="inprogress_tasks[]"
-                        class="form-control custom-input list_of_in_progress_tasks"
-                        placeholder="In-progress task"
-                      />
-                      <button
-                        type="button"
-                        class="custom-btn remove-field rct"
-                        style="display: none"
+                  <div class="multi-fields" formArrayName="inProgressTask">
+                    <ng-container
+                      *ngFor="
+                        let task of inProgressTasks.controls;
+                        let i = index
+                      "
+                    >
+                      <div class="multi-field" [formGroupName]="i">
+                        <input
+                          type="text"
+                          name="inprogress_tasks[]"
+                          class="form-control custom-input list_of_in_progress_tasks"
+                          placeholder="In-progress task"
+                          formControlName="inProgressingTask"
+                        />
+                        <button
+                          type="button"
+                          class="custom-btn remove-field rct"
+                          [ngStyle]="{
+                            display: toggle ? 'block' : 'none'
+                          }"
+                          (click)="removeOrClearCompletingTask(i,'addInProgressTask')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="custom-add-btn add-field ml-2"
+                          (click)="
+                          inProgressTaskValidation(i).controls[
+                              'inProgressingTask'
+                            ].dirty && dailyUpdatesControls['inProgressTask'].valid
+                              ? onAddTaks('addInProgressTask', inProgressTasks.controls[i])
+                              : inprogressed = true
+                          "
+                        >
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <ng-container
+                        *ngIf="
+                          (inprogressed &&
+                          inProgressTaskValidation(i).controls[
+                              'inProgressingTask'
+                            ].pristine) ||
+                          (inProgressTaskValidation(i).controls['inProgressingTask']
+                            .touched &&
+                            inProgressTaskValidation(i).controls[
+                              'inProgressingTask'
+                            ].invalid &&
+                            inProgressTaskValidation(i).controls[
+                              'inProgressingTask'
+                            ].pristine)
+                        "
                       >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="custom-add-btn add-field ml-2"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
+                        <p
+                          class="err_list_of_completed_tasks"
+                          style="color: red"
+                        >
+                          Please fill this first
+                        </p>
+                      </ng-container>
+                    </ng-container>
                   </div>
 
                   <p class="err_list_of_in_progress_tasks"></p>
@@ -309,7 +350,7 @@
                 <ng-container>
                   <p
                     class="subject-style"
-                    *ngIf="dailyUpdatesControls['clientName'].dirty"
+                    *ngIf="dailyUpdatesControls['projectName'].dirty"
                   >
                     <span id="set_project_name_f"
                       >Following are the updates for
@@ -344,6 +385,37 @@
                         <b
                           >{{ i + 1 }}.
                           {{ completetask.completeingTask }} [Done]</b
+                        ><br />
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
+                <ng-container
+                  *ngIf="dailyUpdatesControls['inProgressTask'].dirty"
+                >
+                  <div id="lct_msg">
+                    <u
+                      ><b><br />List of tasks in progress:</b></u
+                    >
+                  </div>
+                  <div>
+                    <ng-container
+                      *ngFor="
+                        let inProgressTask of inProgressTasks.value;
+                        let i = index
+                      "
+                    >
+                      <ng-container
+                        *ngIf="
+                          inProgressTaskValidation(i).controls[
+                            'inProgressingTask'
+                          ].dirty
+                        "
+                      >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b
+                          >{{ i + 1 }}.
+                          {{ inProgressTask.inProgressingTask }}</b
                         ><br />
                       </ng-container>
                     </ng-container>

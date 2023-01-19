@@ -15,9 +15,11 @@ import {
 export class DailyUpdatesComponent implements OnInit {
   dailyUpdates!: FormGroup;
   completeTask!: FormArray;
-  completedTask : any
+  completedTask!: FormGroup;
+  inProgressedTask!: FormGroup;
   toggle: boolean = false;
-  subbmitted!: boolean;
+  completed: boolean = false ;
+  inprogressed !: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -25,36 +27,77 @@ export class DailyUpdatesComponent implements OnInit {
       clientName: ['', Validators.required],
       projectName: ['', Validators.required],
       completeTask: this.formBuilder.array([this.completeing()]),
+      inProgressTask: this.formBuilder.array([this.inProgessing()]),
     });
   }
-  
+
   get dailyUpdatesControls() {
     return this.dailyUpdates.controls;
   }
   get completeTasks() {
     return this.dailyUpdates.get('completeTask') as FormArray;
   }
+  get inProgressTasks() {
+    return this.dailyUpdates.get('inProgressTask') as FormArray;
+  }
   private completeing(): FormGroup {
     return new FormGroup({
       completeingTask: new FormControl('', [Validators.required]),
     });
   }
-  public onAddTaks() {
-    this.completeTasks.push(this.completeing());
-    this.toggle = true;
-    this.subbmitted = false
-    console.log(this.completeTasks.value);
+  private inProgessing(): FormGroup {
+    return new FormGroup({
+      inProgressingTask: new FormControl('', [Validators.required]),
+    });
   }
-  completeTaskValidation(index:number) {
-    this.completedTask = this.completeTasks; 
-    const formGroup = this.completedTask.controls[index] as FormGroup;
-    return formGroup;
+  public onAddTaks(type: string,ctr:any) {
+    console.log('ctr :>> ', ctr);
+    console.log(this.dailyUpdatesControls['completeTask']);
+    switch (type) {
+      case 'addCompleteTask':
+        this.completeTasks.push(this.completeing());
+        this.completed = false;
+        this.toggle = true;
+        break;
+      case 'addInProgressTask':
+        this.inProgressTasks.push(this.inProgessing());
+        this.inprogressed = false;
+        this.toggle = true;
+        break;
+
+      default:
+        break;
+    }
+    
   }
-  public removeOrClearCompletingTask(i: number) {
-    if (this.completeTasks.length > 1) {
-      this.completeTasks.removeAt(i)
-    } else {
-      this.completeTasks.reset()
+  completeTaskValidation(index: number) {
+    return (this.completedTask = this.completeTasks.controls[
+      index
+    ] as FormGroup);
+  }
+  inProgressTaskValidation(index: number) {
+    return (this.inProgressedTask = this.inProgressTasks.controls[
+      index
+    ] as FormGroup);
+  }
+  public removeOrClearCompletingTask(i: number, type: string) {
+    switch (type) {
+      case 'addCompleteTask':
+        if (this.completeTasks.length > 1) {
+          this.completeTasks.removeAt(i);
+        } else {
+          this.completeTasks.reset();
+        }
+        break;
+      case 'addInProgressTask':
+        if (this.inProgressTasks.length > 1) {
+          this.inProgressTasks.removeAt(i);
+        } else {
+          this.inProgressTasks.reset();
+        }
+        break;
+      default:
+        break;
     }
   }
 }
