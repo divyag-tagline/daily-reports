@@ -46,7 +46,7 @@ export class DailyUpdatesComponent implements OnInit {
     console.log(this.completeTasks.value);
   }
   completeTaskValidation(index:number) {
-    this.completedTask = this.dailyUpdates.get('completeTask') as FormArray; 
+    this.completedTask = this.completeTasks; 
     const formGroup = this.completedTask.controls[index] as FormGroup;
     return formGroup;
   }
