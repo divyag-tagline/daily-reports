@@ -1,0 +1,353 @@
+<div class="top-menu">
+  <img src="../../assets/logo.jpg" alt="logo" />
+</div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item active waves-effect waves-right">
+    <a
+      class="nav-link active"
+      id="home-tab"
+      data-toggle="tab"
+      href="#home"
+      role="tab"
+      aria-controls="home"
+      aria-selected="false"
+      >Daily Updates</a
+    >
+  </li>
+  <li class="nav-item waves-effect waves-light">
+    <a
+      class="nav-link"
+      id="profile-tab"
+      data-toggle="tab"
+      href="#profile"
+      role="tab"
+      aria-controls="profile"
+      aria-selected="true"
+      >Request For Leave</a
+    >
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div
+    class="tab-pane fade active show"
+    id="home"
+    role="tabpanel"
+    aria-labelledby="home-tab"
+  >
+    <div class="update-label">
+      <h2>I'm here to write daily update.</h2>
+    </div>
+    <section class="background-img">
+      <div class="container">
+        <div class="row mb-4 d-flex">
+          <div class="col-md-6">
+            <form [formGroup]="dailyUpdates">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-label">Client Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="clientName"
+                      placeholder="Enter Client Name"
+                      formControlName="clientName"
+                      id="clientName"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-label">Project Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="projectName"
+                      placeholder="Enter Project Name"
+                      formControlName="projectName"
+                      id="projectName"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group position-relative">
+                <label class="form-label">List of Completed Tasks :</label>
+                <div class="multi-field-wrapper">
+                  <div class="multi-fields" formArrayName="complateTask">
+                    <div
+                      class="multi-field"
+                      *ngFor="let task of completeTasks.controls; let i = index"
+                    >
+                      <input
+                        type="text"
+                        name="completedtasks"
+                        class="form-control custom-input list_of_completed_tasks"
+                        placeholder="Completed task"
+                        [formControlName]="i"
+                      />
+                      <button
+                        type="button"
+                        class="custom-btn remove-field rct"
+                        style="display: none"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="custom-add-btn add-field ml-2"
+                        (click)="onAddTaks()"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                      <span></span>
+                    </div>
+                  </div>
+                  <p class="err_list_of_completed_tasks" style="color: red">
+                    Please fill this first
+                  </p>
+                </div>
+              </div>
+
+              <div class="form-group position-relative">
+                <label class="form-label">List of In-Progress Tasks:</label>
+                <div class="multi-field-wrapper">
+                  <div class="multi-fields">
+                    <div class="multi-field">
+                      <input
+                        type="text"
+                        name="inprogress_tasks[]"
+                        class="form-control custom-input list_of_in_progress_tasks"
+                        placeholder="In-progress task"
+                      />
+                      <button
+                        type="button"
+                        class="custom-btn remove-field rct"
+                        style="display: none"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="custom-add-btn add-field ml-2"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <p class="err_list_of_in_progress_tasks"></p>
+                </div>
+              </div>
+
+              <div class="form-group position-relative">
+                <label class="form-label">List of Pending Tasks:</label>
+                <div class="multi-field-wrapper">
+                  <div class="multi-fields">
+                    <div class="multi-field">
+                      <input
+                        type="text"
+                        name="pending_tasks[]"
+                        class="form-control custom-input list_of_pending_tasks"
+                        placeholder="Pending task"
+                      />
+                      <button
+                        type="button"
+                        class="custom-btn remove-field rct"
+                        style="display: none"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="custom-add-btn add-field ml-2"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <p class="err_list_of_pending_tasks"></p>
+                </div>
+              </div>
+
+              <div class="form-group position-relative">
+                <label class="form-label">Queries:</label>
+                <div class="multi-field-wrapper">
+                  <div class="multi-fields">
+                    <div class="multi-field">
+                      <input
+                        type="text"
+                        name="queries[]"
+                        class="form-control custom-input queries"
+                        placeholder="Queries"
+                      />
+                      <button
+                        type="button"
+                        class="custom-btn remove-field rct"
+                        style="display: none"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="custom-add-btn add-field ml-2"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <p class="err_queries"></p>
+                </div>
+              </div>
+
+              <div class="form-group position-relative">
+                <label class="form-label">Notes:</label>
+                <div class="multi-field-wrapper">
+                  <div class="multi-fields">
+                    <div class="multi-field">
+                      <input
+                        type="text"
+                        name="notes[]"
+                        class="form-control custom-input notes"
+                        placeholder="Notes"
+                      />
+                      <button
+                        type="button"
+                        class="custom-btn remove-field rct"
+                        style="display: none"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                      <button
+                        type="button"
+                        class="custom-add-btn add-field ml-2"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <p class="err_notes"></p>
+                </div>
+              </div>
+
+              <div class="form-group mb-0">
+                <label class="form-label">Your Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="your_name"
+                  placeholder="Enter Client Name"
+                  id="get_your_name"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <div class="right-side-content">
+              <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
+                <div
+                  id="email-subject"
+                  class="email-subject d-flex justify-content-between"
+                >
+                  <p class="subject-style">
+                    <span id="set_project_name"
+                      >Updates for as on 18 January, 2023</span
+                    >
+                  </p>
+                  <div id="h_copy_b" class="h_copy_b">
+                    <button
+                      class="custom-add-btn"
+                      onclick="copyToClipboard('span#set_project_name')"
+                    >
+                      <i class="fa fa-clone"></i>
+                    </button>
+                  </div>
+                  <p></p>
+                </div>
+              </ng-container>
+              <div id="hr"><hr /></div>
+              <div id="subject">
+                <h4 *ngIf="dailyUpdatesControls['clientName'].dirty">
+                  <span id="set_client_name"
+                    >Hi {{ dailyUpdates.value.clientName }},</span
+                  >
+                </h4>
+                <ng-container>
+                  <p
+                    class="subject-style"
+                    *ngIf="dailyUpdatesControls['projectName'].dirty"
+                  >
+                    <span id="set_project_name_f"
+                      >Following are the updates for
+                      {{ dailyUpdates.value.projectName }} as on 18 January,
+                      2023</span
+                    >
+                  </p>
+                </ng-container>
+                <br />
+                <div>
+                  <div id="lct_msg">
+                    <u><b><br />List of completed tasks:</b></u>
+                  </div>
+                </div>
+                <div>
+                  <!-- <ng-container *ngIf="complateTasks.controls['complateTask'].get('age')"></ng-container> -->
+                  <ng-container
+                    *ngFor="
+                      let completetask of this.dailyUpdates.value.complateTask;
+                      let i = index
+                    "
+                  >
+                    <!-- <ol
+                      [id]="i"
+                      *ngFor="
+                        let completetask of this.dailyUpdates.value
+                          .complateTask;
+                        let i = index
+                      "
+                    > -->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>{{ i + 1 }}. {{ completetask }}</b><br/>
+                    <!-- </ol> -->
+                  </ng-container>
+                </div>
+                <div id="lpt_msg"></div>
+                <div>
+                  <ol id="lpt"></ol>
+                </div>
+                <div id="lpnt_msg"></div>
+                <div>
+                  <ol id="lpnt"></ol>
+                </div>
+                <div id="lrt_msg"></div>
+                <div>
+                  <ol id="lrt"></ol>
+                </div>
+                <div id="queries_msg"></div>
+                <div>
+                  <ol id="ql"></ol>
+                </div>
+                <div id="notes_msg"></div>
+                <div>
+                  <ol id="nl"></ol>
+                </div>
+                <p id="thoughts_msg">
+                  Please check with the latest updates and let us know your
+                  thoughts for the same.
+                </p>
+                <div class="thanks" style="display: none">
+                  <span>Thanks,</span>
+                  <b><h5 id="set_your_name">You</h5></b>
+                </div>
+              </div>
+              <div id="b_copy_b"></div>
+              <div id="mydiv2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
