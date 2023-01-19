@@ -88,27 +88,16 @@
                           placeholder="Completed task"
                           formControlName="completeingTask"
                         />
-                        <ng-container
-                          *ngIf="
-                            completeTaskValidation(i).controls[
-                              'completeingTask'
-                            ].dirty && toggle
-                          "
+                        <button
+                          type="button"
+                          class="custom-btn remove-field rct"
+                          [ngStyle]="{
+                            display: toggle ? 'block' : 'none'
+                          }"
+                          (click)="removeOrClearCompletingTask(i)"
                         >
-                          <button
-                            type="button"
-                            class="custom-btn remove-field rct"
-                            [ngStyle]="{
-                              display:
-                                toggle && task.get('completeingTask')?.dirty
-                                  ? 'block'
-                                  : 'none'
-                            }"
-                            (click)="removeOrClearCompletingTask(i)"
-                          >
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </ng-container>
+                          <i class="fas fa-trash"></i>
+                        </button>
                         <button
                           type="button"
                           class="custom-add-btn add-field ml-2"
@@ -330,7 +319,9 @@
                   </p>
                 </ng-container>
                 <br />
-                <ng-container>
+                <ng-container
+                  *ngIf="dailyUpdatesControls['completeTask'].dirty"
+                >
                   <div id="lct_msg">
                     <u
                       ><b><br />List of completed tasks:</b></u
@@ -343,18 +334,18 @@
                         let i = index
                       "
                     >
-                      <!-- <ol
-                      [id]="i"
-                      *ngFor="
-                        let completetask of this.dailyUpdates.value
-                          .completeTask;
-                        let i = index
-                      "
-                    > -->
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <b>{{ i + 1 }}. {{ completetask.completeingTask }}</b
-                      ><br />
-                      <!-- </ol> -->
+                      <ng-container
+                        *ngIf="
+                          completeTaskValidation(i).controls['completeingTask']
+                            .dirty
+                        "
+                      >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b
+                          >{{ i + 1 }}.
+                          {{ completetask.completeingTask }} [Done]</b
+                        ><br />
+                      </ng-container>
                     </ng-container>
                   </div>
                 </ng-container>
@@ -378,10 +369,14 @@
                 <div>
                   <ol id="nl"></ol>
                 </div>
-                <p id="thoughts_msg">
-                  Please check with the latest updates and let us know your
-                  thoughts for the same.
-                </p>
+                <ng-container
+                  *ngIf="dailyUpdatesControls['completeTask'].dirty"
+                >
+                  <p id="thoughts_msg">
+                    Please check with the latest updates and let us know your
+                    thoughts for the same.
+                  </p>
+                </ng-container>
                 <div class="thanks" style="display: none">
                   <span>Thanks,</span>
                   <b><h5 id="set_your_name">You</h5></b>
