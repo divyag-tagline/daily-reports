@@ -108,12 +108,13 @@ export class DailyUpdatesComponent implements OnInit {
         break;
       case 'addNote':
         this.noted.push(this.noteing());
-        this.toggle = true;
+        
         this.note = false;
         break;
       default:
         break;
     }
+    
   }
   completeTaskValidation(index: number) {
     return (this.completedTask = this.completeTasks.controls[
