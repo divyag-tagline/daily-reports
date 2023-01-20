@@ -19,11 +19,13 @@ export class DailyUpdatesComponent implements OnInit {
   inProgressedTask!: FormGroup;
   pendingTasks!: FormGroup;
   queredTask!: FormGroup;
+  notedTask!: FormGroup;
   toggle: boolean = false;
   completed!: boolean;
   inprogressed!: boolean;
   pendingTasked!: boolean;
   query!: boolean;
+  note!: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class DailyUpdatesComponent implements OnInit {
       inProgressTask: this.formBuilder.array([this.inProgressing()]),
       pendingTask: this.formBuilder.array([this.pending()]),
       queries: this.formBuilder.array([this.quering()]),
+      notes: this.formBuilder.array([this.noteing()]),
+      name: ['', Validators.required],
     });
   }
 
@@ -51,6 +55,9 @@ export class DailyUpdatesComponent implements OnInit {
   }
   get quered() {
     return this.dailyUpdates.get('queries') as FormArray;
+  }
+  get noted() {
+    return this.dailyUpdates.get('notes') as FormArray;
   }
   private completeing(): FormGroup {
     return new FormGroup({
@@ -70,6 +77,11 @@ export class DailyUpdatesComponent implements OnInit {
   private quering(): FormGroup {
     return new FormGroup({
       queriesTask: new FormControl('', [Validators.required]),
+    });
+  }
+  private noteing(): FormGroup {
+    return new FormGroup({
+      noteTask: new FormControl('', [Validators.required]),
     });
   }
   public onAddTaks(type: string) {
@@ -94,6 +106,11 @@ export class DailyUpdatesComponent implements OnInit {
         this.toggle = true;
         this.query = false;
         break;
+      case 'addNote':
+        this.noted.push(this.noteing());
+        this.toggle = true;
+        this.note = false;
+        break;
       default:
         break;
     }
@@ -114,6 +131,9 @@ export class DailyUpdatesComponent implements OnInit {
   queriesValidation(index: number) {
     return (this.queredTask = this.quered.controls[index] as FormGroup);
   }
+  noteValidation(index: number) {
+    return (this.notedTask = this.noted.controls[index] as FormGroup);
+  }
   public removeOrClearCompletingTask(i: number, type: string) {
     switch (type) {
       case 'addCompleteTask':
@@ -125,8 +145,8 @@ export class DailyUpdatesComponent implements OnInit {
         break;
       case 'addInProgressTask':
         if (this.inProgressTasks.length > 1) {
-          this.inProgressTasks.removeAt(i);
         } else {
+          this.inProgressTasks.removeAt(i);
           this.inProgressTasks.reset();
         }
         break;
@@ -142,6 +162,13 @@ export class DailyUpdatesComponent implements OnInit {
           this.quered.removeAt(i);
         } else {
           this.quered.reset();
+        }
+        break;
+      case 'addNote':
+        if (this.noted.length > 1) {
+          this.noted.removeAt(i);
+        } else {
+          this.noted.reset();
         }
         break;
       default:

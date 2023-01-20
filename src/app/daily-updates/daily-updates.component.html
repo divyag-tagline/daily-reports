@@ -340,30 +340,56 @@
               <div class="form-group position-relative">
                 <label class="form-label">Notes:</label>
                 <div class="multi-field-wrapper">
-                  <div class="multi-fields">
-                    <div class="multi-field">
-                      <input
-                        type="text"
-                        name="notes[]"
-                        class="form-control custom-input notes"
-                        placeholder="Notes"
-                      />
-                      <button
-                        type="button"
-                        class="custom-btn remove-field rct"
-                        style="display: none"
+                  <div class="multi-fields" formArrayName="notes">
+                    <ng-container
+                      *ngFor="let task of noted.controls; let i = index"
+                    >
+                      <div class="multi-field" [formGroupName]="i">
+                        <input
+                          type="text"
+                          name="note"
+                          class="form-control custom-input notes"
+                          placeholder="Notes"
+                          formControlName="noteTask"
+                        />
+                        <button
+                          type="button"
+                          class="custom-btn remove-field rct"
+                          [ngStyle]="{
+                            display: toggle ? 'block' : 'none'
+                          }"
+                          (click)="removeOrClearCompletingTask(i, 'addNote')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="custom-add-btn add-field ml-2"
+                          (click)="
+                            noteValidation(i).controls['noteTask'].dirty &&
+                            dailyUpdatesControls['notes'].valid
+                              ? onAddTaks('addNote')
+                              : (note = true)
+                          "
+                        >
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <ng-container
+                        *ngIf="
+                          (note &&
+                            noteValidation(i).controls['noteTask'].pristine) ||
+                          (noteValidation(i).controls['noteTask'].touched &&
+                            noteValidation(i).controls['noteTask'].invalid &&
+                            noteValidation(i).controls['noteTask'].pristine)
+                        "
                       >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="custom-add-btn add-field ml-2"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
+                        <p class="err_list_of_pending_tasks text-danger">
+                          Please fill this first
+                        </p>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                  <p class="err_notes"></p>
                 </div>
               </div>
 
@@ -375,6 +401,7 @@
                   name="your_name"
                   placeholder="Enter Client Name"
                   id="get_your_name"
+                  formControlName="name"
                 />
               </div>
             </form>
@@ -509,7 +536,7 @@
                   </div>
                 </ng-container>
                 <ng-container *ngIf="dailyUpdatesControls['queries'].dirty">
-                  <div id="lct_msg">
+                  <div id="queries_msg">
                     <u
                       ><b><br />Queries: </b></u
                     >
@@ -524,24 +551,30 @@
                         "
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <b>{{ i + 1 }}. {{ query.queriesTask }}</b
-                        ><br />
+                        {{ i + 1 }}. {{ query.queriesTask }}<br />
                       </ng-container>
                     </ng-container>
                   </div>
                 </ng-container>
-                <div id="lrt_msg"></div>
-                <div>
-                  <ol id="lrt"></ol>
-                </div>
-                <div id="queries_msg"></div>
-                <div>
-                  <ol id="ql"></ol>
-                </div>
-                <div id="notes_msg"></div>
-                <div>
-                  <ol id="nl"></ol>
-                </div>
+                <ng-container *ngIf="dailyUpdatesControls['notes'].dirty">
+                  <div id="notes_msg">
+                    <u
+                      ><b><br />Notes: </b></u
+                    >
+                  </div>
+                  <div>
+                    <ng-container
+                      *ngFor="let noteTasks of noted.value; let i = index"
+                    >
+                      <ng-container
+                        *ngIf="noteValidation(i).controls['noteTask'].dirty"
+                      >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{ i + 1 }}. {{ noteTasks.noteTask }}<br />
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
                 <ng-container
                   *ngIf="dailyUpdatesControls['completeTask'].dirty"
                 >
@@ -550,10 +583,25 @@
                     thoughts for the same.
                   </p>
                 </ng-container>
-                <div class="thanks" style="display: none">
-                  <span>Thanks,</span>
-                  <b><h5 id="set_your_name">You</h5></b>
-                </div>
+                <ng-container *ngIf="dailyUpdatesControls['name'].dirty">
+                  <div
+                    class="thanks"
+                    [ngStyle]="{
+                      display:
+                        dailyUpdatesControls['name'].dirty &&
+                        dailyUpdatesControls['name'].valid
+                          ? 'block'
+                          : 'none'
+                    }"
+                  >
+                    <span>Thanks,</span>
+                    <b
+                      ><h5 id="set_your_name">
+                        {{ dailyUpdates.value.name }}
+                      </h5></b
+                    >
+                  </div>
+                </ng-container>
               </div>
               <div id="b_copy_b"></div>
               <div id="mydiv2"></div>
