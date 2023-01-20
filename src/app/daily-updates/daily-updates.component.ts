@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-daily-updates',
@@ -32,11 +26,17 @@ export class DailyUpdatesComponent implements OnInit {
     this.dailyUpdates = this.formBuilder.group({
       clientName: ['', Validators.required],
       projectName: ['', Validators.required],
-      completeTask: this.formBuilder.array([this.completeing()]),
-      inProgressTask: this.formBuilder.array([this.inProgressing()]),
-      pendingTask: this.formBuilder.array([this.pending()]),
-      queries: this.formBuilder.array([this.quering()]),
-      notes: this.formBuilder.array([this.noteing()]),
+      completeTask: this.formBuilder.array([
+        this.addNewControl('completeingTask'),
+      ]),
+      inProgressTask: this.formBuilder.array([
+        this.addNewControl('inProgressingTask'),
+      ]),
+      pendingTask: this.formBuilder.array([
+        this.addNewControl('pendingTasking'),
+      ]),
+      queries: this.formBuilder.array([this.addNewControl('queriesTask')]),
+      notes: this.formBuilder.array([this.addNewControl('noteTask')]),
       name: ['', Validators.required],
     });
   }
@@ -59,82 +59,66 @@ export class DailyUpdatesComponent implements OnInit {
   get noted() {
     return this.dailyUpdates.get('notes') as FormArray;
   }
-  private completeing(): FormGroup {
-    return new FormGroup({
-      completeingTask: new FormControl('', [Validators.required]),
-    });
-  }
-  private inProgressing(): FormGroup {
-    return new FormGroup({
-      inProgressingTask: new FormControl('', [Validators.required]),
-    });
-  }
-  private pending(): FormGroup {
-    return new FormGroup({
-      pendingTasking: new FormControl('', [Validators.required]),
-    });
-  }
-  private quering(): FormGroup {
-    return new FormGroup({
-      queriesTask: new FormControl('', [Validators.required]),
-    });
-  }
-  private noteing(): FormGroup {
-    return new FormGroup({
-      noteTask: new FormControl('', [Validators.required]),
+  addNewControl(key: string): FormGroup {
+    return this.formBuilder.group({
+      [`${key}`]: ['', [Validators.required]],
     });
   }
   public onAddTaks(type: string) {
     switch (type) {
       case 'addCompleteTask':
-        this.completeTasks.push(this.completeing());
+        this.completeTasks.push(this.addNewControl('completeingTask'));
         this.toggle = true;
         this.completed = false;
         break;
       case 'addInProgressTask':
-        this.inProgressTasks.push(this.inProgressing());
+        this.inProgressTasks.push(this.addNewControl('inProgressingTask'));
         this.toggle = true;
         this.inprogressed = false;
         break;
       case 'addPendingTask':
-        this.pendinged.push(this.pending());
+        this.pendinged.push(this.addNewControl('pendingTasking'));
         this.toggle = true;
         this.pendingTasked = false;
         break;
       case 'addQueries':
-        this.quered.push(this.quering());
+        this.quered.push(this.addNewControl('queriesTask'));
         this.toggle = true;
         this.query = false;
         break;
       case 'addNote':
-        this.noted.push(this.noteing());
-        
+        this.noted.push(this.addNewControl('noteTask'));
+        this.toggle = true;
         this.note = false;
         break;
       default:
         break;
     }
-    
   }
   completeTaskValidation(index: number) {
     return (this.completedTask = this.completeTasks.controls[
       index
     ] as FormGroup);
   }
+
   inProgressTaskValidation(index: number) {
     return (this.inProgressedTask = this.inProgressTasks.controls[
       index
     ] as FormGroup);
   }
+
   pendingTaskValidation(index: number) {
     return (this.pendingTasks = this.pendinged.controls[index] as FormGroup);
   }
-  queriesValidation(index: number) {
+
+  queriesValidation(index: number): FormGroup {
     return (this.queredTask = this.quered.controls[index] as FormGroup);
   }
+
   noteValidation(index: number) {
     return (this.notedTask = this.noted.controls[index] as FormGroup);
   }
+
   public removeOrClearCompletingTask(i: number, type: string) {
     switch (type) {
       case 'addCompleteTask':
@@ -146,8 +130,8 @@ export class DailyUpdatesComponent implements OnInit {
         break;
       case 'addInProgressTask':
         if (this.inProgressTasks.length > 1) {
-        } else {
           this.inProgressTasks.removeAt(i);
+        } else {
           this.inProgressTasks.reset();
         }
         break;
@@ -175,5 +159,9 @@ export class DailyUpdatesComponent implements OnInit {
       default:
         break;
     }
+  }
+  copyToClipboard() {
+    const copyText = document.getElementById('textCopy') as HTMLElement;
+    navigator.clipboard.writeText(copyText.innerText);
   }
 }

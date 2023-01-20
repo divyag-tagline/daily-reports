@@ -92,7 +92,10 @@
                           type="button"
                           class="custom-btn remove-field rct"
                           [ngStyle]="{
-                            display: toggle && completeTasks.controls.length > 1 ? 'block' : 'none'
+                            display:
+                              toggle && completeTasks.controls.length > 1
+                                ? 'block'
+                                : 'none'
                           }"
                           (click)="
                             removeOrClearCompletingTask(i, 'addCompleteTask')
@@ -121,9 +124,7 @@
                           (completed &&
                             completeTaskValidation(i).controls[
                               'completeingTask'
-                            ].pristine && completeTaskValidation(i).controls[
-                            'completeingTask'
-                          ].invalid) ||
+                            ].pristine) ||
                           (completeTaskValidation(i).controls['completeingTask']
                             .touched &&
                             completeTaskValidation(i).controls[
@@ -165,7 +166,10 @@
                           type="button"
                           class="custom-btn remove-field rct"
                           [ngStyle]="{
-                            display: toggle && inProgressTasks.controls.length > 1 ? 'block' : 'none'
+                            display:
+                              toggle && inProgressTasks.controls.length > 1
+                                ? 'block'
+                                : 'none'
                           }"
                           (click)="
                             removeOrClearCompletingTask(i, 'addInProgressTask')
@@ -235,7 +239,10 @@
                           type="button"
                           class="custom-btn remove-field rct"
                           [ngStyle]="{
-                            display: toggle && pendinged.controls.length > 1 ? 'block' : 'none'
+                            display:
+                              toggle && pendinged.controls.length > 1
+                                ? 'block'
+                                : 'none'
                           }"
                           (click)="
                             removeOrClearCompletingTask(i, 'addPendingTask')
@@ -298,7 +305,10 @@
                           type="button"
                           class="custom-btn remove-field rct"
                           [ngStyle]="{
-                            display: toggle && quered.controls.length > 1 ? 'block' : 'none'
+                            display:
+                              toggle && quered.controls.length > 1
+                                ? 'block'
+                                : 'none'
                           }"
                           (click)="removeOrClearCompletingTask(i, 'addQueries')"
                         >
@@ -358,7 +368,10 @@
                           type="button"
                           class="custom-btn remove-field rct"
                           [ngStyle]="{
-                            display: toggle && noted.controls.length > 1  ? 'block' : 'none'
+                            display:
+                              toggle && noted.controls.length > 1
+                                ? 'block'
+                                : 'none'
                           }"
                           (click)="removeOrClearCompletingTask(i, 'addNote')"
                         >
@@ -409,7 +422,7 @@
             </form>
           </div>
           <div class="col-lg-6">
-            <div class="right-side-content">
+            <div class="right-side-content" id="textCopy">
               <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
                 <div
                   id="email-subject"
@@ -421,10 +434,7 @@
                     >
                   </p>
                   <div id="h_copy_b" class="h_copy_b">
-                    <button
-                      class="custom-add-btn"
-                      onclick="copyToClipboard('span#set_project_name')"
-                    >
+                    <button class="custom-add-btn" (click)="copyToClipboard()">
                       <i class="fa fa-clone"></i>
                     </button>
                   </div>
@@ -456,7 +466,14 @@
                 <ng-container
                   *ngIf="dailyUpdatesControls['completeTask'].dirty"
                 >
-                  <div id="lct_msg" [ngStyle]="{'display': dailyUpdatesControls['completeTask'].dirty ? 'block' : 'none'}">
+                  <div
+                    id="lct_msg"
+                    [ngStyle]="{
+                      display: dailyUpdatesControls['completeTask'].dirty
+                        ? 'block'
+                        : 'none'
+                    }"
+                  >
                     <u
                       ><b><br />List of completed tasks:</b></u
                     >
