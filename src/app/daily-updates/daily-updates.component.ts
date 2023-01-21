@@ -17,9 +17,10 @@ export class DailyUpdatesComponent implements OnInit {
   completeTask!: FormArray;
   completedTask!: FormGroup;
   inProgressedTask!: FormGroup;
+  pendingTasks!: FormGroup;
   toggle: boolean = false;
-  completed: boolean = false ;
-  inprogressed !: boolean;
+  completed: boolean = false;
+  inprogressed!: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class DailyUpdatesComponent implements OnInit {
       projectName: ['', Validators.required],
       completeTask: this.formBuilder.array([this.completeing()]),
       inProgressTask: this.formBuilder.array([this.inProgessing()]),
+      pendingTask: this.formBuilder.array([this.pending]),
     });
   }
 
@@ -40,6 +42,9 @@ export class DailyUpdatesComponent implements OnInit {
   get inProgressTasks() {
     return this.dailyUpdates.get('inProgressTask') as FormArray;
   }
+  get pendingTask() {
+    return this.dailyUpdates.get('pendingTask') as FormArray;
+  }
   private completeing(): FormGroup {
     return new FormGroup({
       completeingTask: new FormControl('', [Validators.required]),
@@ -50,7 +55,12 @@ export class DailyUpdatesComponent implements OnInit {
       inProgressingTask: new FormControl('', [Validators.required]),
     });
   }
-  public onAddTaks(type: string,ctr:any) {
+  private pending(): FormGroup {
+    return new FormGroup({
+      pendingTask: new FormControl('', [Validators.required]),
+    });
+  }
+  public onAddTaks(type: string, ctr: any) {
     console.log('ctr :>> ', ctr);
     console.log(this.dailyUpdatesControls['completeTask']);
     switch (type) {
@@ -68,7 +78,6 @@ export class DailyUpdatesComponent implements OnInit {
       default:
         break;
     }
-    
   }
   completeTaskValidation(index: number) {
     return (this.completedTask = this.completeTasks.controls[
