@@ -15,11 +15,15 @@ import {
 export class DailyUpdatesComponent implements OnInit {
   dailyUpdates!: FormGroup;
   completeTask!: FormArray;
-  completedTask: any;
-  inProgressedTask: any;
+  completedTask!: FormGroup;
+  inProgressedTask!: FormGroup;
+  pendingTasks!: FormGroup;
+  queredTask!: FormGroup;
   toggle: boolean = false;
   completed!: boolean;
   inprogressed!: boolean;
+  pendingTasked!: boolean;
+  query!: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -27,7 +31,9 @@ export class DailyUpdatesComponent implements OnInit {
       clientName: ['', Validators.required],
       projectName: ['', Validators.required],
       completeTask: this.formBuilder.array([this.completeing()]),
-      inProgessTask: this.formBuilder.array([this.inprogressing()]),
+      inProgressTask: this.formBuilder.array([this.inProgressing()]),
+      pendingTask: this.formBuilder.array([this.pending()]),
+      queries: this.formBuilder.array([]),
     });
   }
 
@@ -38,16 +44,32 @@ export class DailyUpdatesComponent implements OnInit {
     return this.dailyUpdates.get('completeTask') as FormArray;
   }
   get inProgressTasks() {
-    return this.dailyUpdates.get('inProgessTask') as FormArray;
+    return this.dailyUpdates.get('inProgressTask') as FormArray;
+  }
+  get pendinged() {
+    return this.dailyUpdates.get('pendingTask') as FormArray;
+  }
+  get quered() {
+    return this.dailyUpdates.get('queries') as FormArray;
   }
   private completeing(): FormGroup {
     return new FormGroup({
       completeingTask: new FormControl('', [Validators.required]),
     });
   }
-  private inprogressing(): FormGroup {
+  private inProgressing(): FormGroup {
     return new FormGroup({
       inProgressingTask: new FormControl('', [Validators.required]),
+    });
+  }
+  private pending(): FormGroup {
+    return new FormGroup({
+      pendingTasking: new FormControl('', [Validators.required]),
+    });
+  }
+  private quering(): FormGroup {
+    return new FormGroup({
+      queriesTask: new FormControl('', [Validators.required]),
     });
   }
   public onAddTaks(type: string) {
@@ -57,22 +79,40 @@ export class DailyUpdatesComponent implements OnInit {
         this.toggle = true;
         this.completed = false;
         break;
-
+      case 'addInProgressTask':
+        this.inProgressTasks.push(this.inProgressing());
+        this.toggle = true;
+        this.inprogressed = false;
+        break;
+      case 'addPendingTask':
+        this.pendinged.push(this.pending());
+        this.toggle = true;
+        this.pendingTasked = false;
+        break;
+      case 'addQueries':
+        this.quered.push(this.pending());
+        this.toggle = true;
+        this.query = false;
+        break;
       default:
         break;
     }
-
-    console.log(this.completeTasks.value);
   }
-  completeTaskValidation(index: number){
+  completeTaskValidation(index: number) {
     return (this.completedTask = this.completeTasks.controls[
       index
-    ] as FormGroup)
+    ] as FormGroup);
   }
   inProgressTaskValidation(index: number) {
     return (this.inProgressedTask = this.inProgressTasks.controls[
       index
     ] as FormGroup);
+  }
+  pendingTaskValidation(index: number) {
+    return (this.pendingTasks = this.pendinged.controls[index] as FormGroup);
+  }
+  queriesValidation(index: number) {
+    return (this.queredTask = this.quered.controls[index] as FormGroup);
   }
   public removeOrClearCompletingTask(i: number, type: string) {
     switch (type) {
@@ -88,6 +128,20 @@ export class DailyUpdatesComponent implements OnInit {
           this.inProgressTasks.removeAt(i);
         } else {
           this.inProgressTasks.reset();
+        }
+        break;
+      case 'addPendingTask':
+        if (this.pendinged.length > 1) {
+          this.pendinged.removeAt(i);
+        } else {
+          this.pendinged.reset();
+        }
+        break;
+      case 'addQueries':
+        if (this.quered.length > 1) {
+          this.quered.removeAt(i);
+        } else {
+          this.quered.reset();
         }
         break;
       default:

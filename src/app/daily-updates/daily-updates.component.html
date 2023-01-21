@@ -94,7 +94,9 @@
                           [ngStyle]="{
                             display: toggle ? 'block' : 'none'
                           }"
-                          (click)="removeOrClearCompletingTask(i,'addCompleteTask')"
+                          (click)="
+                            removeOrClearCompletingTask(i, 'addCompleteTask')
+                          "
                         >
                           <i class="fas fa-trash"></i>
                         </button>
@@ -104,9 +106,10 @@
                           (click)="
                             completeTaskValidation(i).controls[
                               'completeingTask'
-                            ].dirty && dailyUpdatesControls['completeTask'].valid
+                            ].dirty &&
+                            dailyUpdatesControls['completeTask'].valid
                               ? onAddTaks('addCompleteTask')
-                              : completed = true
+                              : (completed = true)
                           "
                         >
                           <i class="fas fa-plus"></i>
@@ -129,10 +132,7 @@
                             ].pristine)
                         "
                       >
-                        <p
-                          class="err_list_of_completed_tasks"
-                          style="color: red"
-                        >
+                        <p class="err_list_of_completed_tasks text-danger">
                           Please fill this first
                         </p>
                       </ng-container>
@@ -165,7 +165,9 @@
                           [ngStyle]="{
                             display: toggle ? 'block' : 'none'
                           }"
-                          (click)="removeOrClearCompletingTask(i,'addInProgressTask')"
+                          (click)="
+                            removeOrClearCompletingTask(i, 'addInProgressTask')
+                          "
                         >
                           <i class="fas fa-trash"></i>
                         </button>
@@ -173,11 +175,12 @@
                           type="button"
                           class="custom-add-btn add-field ml-2"
                           (click)="
-                          inProgressTaskValidation(i).controls[
+                            inProgressTaskValidation(i).controls[
                               'inProgressingTask'
-                            ].dirty && dailyUpdatesControls['inProgressTask'].valid
+                            ].dirty &&
+                            dailyUpdatesControls['inProgressTask'].valid
                               ? onAddTaks('addInProgressTask')
-                              : inprogressed = true
+                              : (inprogressed = true)
                           "
                         >
                           <i class="fas fa-plus"></i>
@@ -186,11 +189,12 @@
                       <ng-container
                         *ngIf="
                           (inprogressed &&
-                          inProgressTaskValidation(i).controls[
+                            inProgressTaskValidation(i).controls[
                               'inProgressingTask'
                             ].pristine) ||
-                          (inProgressTaskValidation(i).controls['inProgressingTask']
-                            .touched &&
+                          (inProgressTaskValidation(i).controls[
+                            'inProgressingTask'
+                          ].touched &&
                             inProgressTaskValidation(i).controls[
                               'inProgressingTask'
                             ].invalid &&
@@ -199,10 +203,7 @@
                             ].pristine)
                         "
                       >
-                        <p
-                          class="err_list_of_completed_tasks"
-                          style="color: red"
-                        >
+                        <p class="err_list_of_completed_tasks text-danger">
                           Please fill this first
                         </p>
                       </ng-container>
@@ -216,30 +217,63 @@
               <div class="form-group position-relative">
                 <label class="form-label">List of Pending Tasks:</label>
                 <div class="multi-field-wrapper">
-                  <div class="multi-fields">
-                    <div class="multi-field">
-                      <input
-                        type="text"
-                        name="pending_tasks[]"
-                        class="form-control custom-input list_of_pending_tasks"
-                        placeholder="Pending task"
-                      />
-                      <button
-                        type="button"
-                        class="custom-btn remove-field rct"
-                        style="display: none"
+                  <div class="multi-fields" formArrayName="pendingTask">
+                    <ng-container
+                      *ngFor="let task of pendinged.controls; let i = index"
+                    >
+                      <div class="multi-field" [formGroupName]="i">
+                        <input
+                          type="text"
+                          name="pending_tasks[]"
+                          class="form-control custom-input list_of_pending_tasks"
+                          placeholder="Pending task"
+                          formControlName="pendingTasking"
+                        />
+                        <button
+                          type="button"
+                          class="custom-btn remove-field rct"
+                          [ngStyle]="{
+                            display: toggle ? 'block' : 'none'
+                          }"
+                          (click)="
+                            removeOrClearCompletingTask(i, 'addPendingTask')
+                          "
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="custom-add-btn add-field ml-2"
+                          (click)="
+                            pendingTaskValidation(i).controls['pendingTasking']
+                              .dirty &&
+                            dailyUpdatesControls['pendingTask'].valid
+                              ? onAddTaks('addPendingTask')
+                              : (pendingTasked = true)
+                          "
+                        >
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <ng-container
+                        *ngIf="
+                          (pendingTasked &&
+                            pendingTaskValidation(i).controls['pendingTasking']
+                              .pristine) ||
+                          (pendingTaskValidation(i).controls['pendingTasking']
+                            .touched &&
+                            pendingTaskValidation(i).controls['pendingTasking']
+                              .invalid &&
+                            pendingTaskValidation(i).controls['pendingTasking']
+                              .pristine)
+                        "
                       >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="custom-add-btn add-field ml-2"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
+                        <p class="err_list_of_pending_tasks text-danger">
+                          Please fill this first
+                        </p>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                  <p class="err_list_of_pending_tasks"></p>
                 </div>
               </div>
 
@@ -317,9 +351,7 @@
           </div>
           <div class="col-lg-6">
             <div class="right-side-content">
-              <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
-                <div id="hr"><hr /></div>
-              </ng-container>
+              
               <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
                 <div
                   id="email-subject"
@@ -340,6 +372,9 @@
                   </div>
                   <p></p>
                 </div>
+                <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
+                  <div id="hr"><hr /></div>
+                </ng-container>
               </ng-container>
               <div id="subject">
                 <h4 *ngIf="dailyUpdatesControls['clientName'].dirty">
@@ -421,10 +456,31 @@
                     </ng-container>
                   </div>
                 </ng-container>
-                <div id="lpt_msg"></div>
-                <div>
-                  <ol id="lpt"></ol>
-                </div>
+                <ng-container
+                  *ngIf="dailyUpdatesControls['pendingTask'].dirty"
+                >
+                  <div id="lct_msg">
+                    <u
+                      ><b><br />List of pending tasks:</b></u
+                    >
+                  </div>
+                  <div>
+                    <ng-container
+                      *ngFor="let pendingtask of pendinged.value; let i = index"
+                    >
+                      <ng-container
+                        *ngIf="
+                          pendingTaskValidation(i).controls['pendingTasking']
+                            .dirty
+                        "
+                      >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>{{ i + 1 }}. {{ pendingtask.pendingTasking }}</b
+                        ><br />
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
                 <div id="lpnt_msg"></div>
                 <div>
                   <ol id="lpnt"></ol>
