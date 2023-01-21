@@ -33,7 +33,7 @@ export class DailyUpdatesComponent implements OnInit {
       completeTask: this.formBuilder.array([this.completeing()]),
       inProgressTask: this.formBuilder.array([this.inProgressing()]),
       pendingTask: this.formBuilder.array([this.pending()]),
-      queries: this.formBuilder.array([]),
+      queries: this.formBuilder.array([this.quering()]),
     });
   }
 
@@ -90,7 +90,7 @@ export class DailyUpdatesComponent implements OnInit {
         this.pendingTasked = false;
         break;
       case 'addQueries':
-        this.quered.push(this.pending());
+        this.quered.push(this.quering());
         this.toggle = true;
         this.query = false;
         break;

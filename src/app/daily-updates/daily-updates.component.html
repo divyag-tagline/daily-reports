@@ -280,30 +280,60 @@
               <div class="form-group position-relative">
                 <label class="form-label">Queries:</label>
                 <div class="multi-field-wrapper">
-                  <div class="multi-fields">
-                    <div class="multi-field">
-                      <input
-                        type="text"
-                        name="queries[]"
-                        class="form-control custom-input queries"
-                        placeholder="Queries"
-                      />
-                      <button
-                        type="button"
-                        class="custom-btn remove-field rct"
-                        style="display: none"
+                  <div class="multi-fields" formArrayName="queries">
+                    <ng-container
+                      *ngFor="let task of quered.controls; let i = index"
+                    >
+                      <div class="multi-field" [formGroupName]="i">
+                        <input
+                          type="text"
+                          name="queries[]"
+                          class="form-control custom-input queries"
+                          placeholder="Queries"
+                          formControlName="queriesTask"
+                        />
+                        <button
+                          type="button"
+                          class="custom-btn remove-field rct"
+                          [ngStyle]="{
+                            display: toggle ? 'block' : 'none'
+                          }"
+                          (click)="removeOrClearCompletingTask(i, 'addQueries')"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <button
+                          type="button"
+                          class="custom-add-btn add-field ml-2"
+                          (click)="
+                            queriesValidation(i).controls['queriesTask']
+                              .dirty && dailyUpdatesControls['queries'].valid
+                              ? onAddTaks('addQueries')
+                              : (query = true)
+                          "
+                        >
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <ng-container
+                        *ngIf="
+                          (query &&
+                            queriesValidation(i).controls['queriesTask']
+                              .pristine) ||
+                          (queriesValidation(i).controls['queriesTask']
+                            .touched &&
+                            queriesValidation(i).controls['queriesTask']
+                              .invalid &&
+                            queriesValidation(i).controls['queriesTask']
+                              .pristine)
+                        "
                       >
-                        <i class="fas fa-trash"></i>
-                      </button>
-                      <button
-                        type="button"
-                        class="custom-add-btn add-field ml-2"
-                      >
-                        <i class="fas fa-plus"></i>
-                      </button>
-                    </div>
+                        <p class="err_list_of_pending_tasks text-danger">
+                          Please fill this first
+                        </p>
+                      </ng-container>
+                    </ng-container>
                   </div>
-                  <p class="err_queries"></p>
                 </div>
               </div>
 
@@ -351,7 +381,6 @@
           </div>
           <div class="col-lg-6">
             <div class="right-side-content">
-              
               <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
                 <div
                   id="email-subject"
@@ -456,9 +485,7 @@
                     </ng-container>
                   </div>
                 </ng-container>
-                <ng-container
-                  *ngIf="dailyUpdatesControls['pendingTask'].dirty"
-                >
+                <ng-container *ngIf="dailyUpdatesControls['pendingTask'].dirty">
                   <div id="lct_msg">
                     <u
                       ><b><br />List of pending tasks:</b></u
@@ -481,10 +508,28 @@
                     </ng-container>
                   </div>
                 </ng-container>
-                <div id="lpnt_msg"></div>
-                <div>
-                  <ol id="lpnt"></ol>
-                </div>
+                <ng-container *ngIf="dailyUpdatesControls['queries'].dirty">
+                  <div id="lct_msg">
+                    <u
+                      ><b><br />Queries: </b></u
+                    >
+                  </div>
+                  <div>
+                    <ng-container
+                      *ngFor="let query of quered.value; let i = index"
+                    >
+                      <ng-container
+                        *ngIf="
+                          queriesValidation(i).controls['queriesTask'].dirty
+                        "
+                      >
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>{{ i + 1 }}. {{ query.queriesTask }}</b
+                        ><br />
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
                 <div id="lrt_msg"></div>
                 <div>
                   <ol id="lrt"></ol>
