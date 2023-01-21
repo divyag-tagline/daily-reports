@@ -15,11 +15,10 @@ import {
 export class DailyUpdatesComponent implements OnInit {
   dailyUpdates!: FormGroup;
   completeTask!: FormArray;
-  completedTask!: FormGroup;
-  inProgressedTask!: FormGroup;
-  pendingTasks!: FormGroup;
+  completedTask: any;
+  inProgressedTask: any;
   toggle: boolean = false;
-  completed: boolean = false;
+  completed!: boolean;
   inprogressed!: boolean;
   constructor(private formBuilder: FormBuilder) {}
 
@@ -28,8 +27,7 @@ export class DailyUpdatesComponent implements OnInit {
       clientName: ['', Validators.required],
       projectName: ['', Validators.required],
       completeTask: this.formBuilder.array([this.completeing()]),
-      inProgressTask: this.formBuilder.array([this.inProgessing()]),
-      pendingTask: this.formBuilder.array([this.pending]),
+      inProgessTask: this.formBuilder.array([this.inprogressing()]),
     });
   }
 
@@ -40,49 +38,36 @@ export class DailyUpdatesComponent implements OnInit {
     return this.dailyUpdates.get('completeTask') as FormArray;
   }
   get inProgressTasks() {
-    return this.dailyUpdates.get('inProgressTask') as FormArray;
-  }
-  get pendingTask() {
-    return this.dailyUpdates.get('pendingTask') as FormArray;
+    return this.dailyUpdates.get('inProgessTask') as FormArray;
   }
   private completeing(): FormGroup {
     return new FormGroup({
       completeingTask: new FormControl('', [Validators.required]),
     });
   }
-  private inProgessing(): FormGroup {
+  private inprogressing(): FormGroup {
     return new FormGroup({
       inProgressingTask: new FormControl('', [Validators.required]),
     });
   }
-  private pending(): FormGroup {
-    return new FormGroup({
-      pendingTask: new FormControl('', [Validators.required]),
-    });
-  }
-  public onAddTaks(type: string, ctr: any) {
-    console.log('ctr :>> ', ctr);
-    console.log(this.dailyUpdatesControls['completeTask']);
+  public onAddTaks(type: string) {
     switch (type) {
       case 'addCompleteTask':
         this.completeTasks.push(this.completeing());
+        this.toggle = true;
         this.completed = false;
-        this.toggle = true;
-        break;
-      case 'addInProgressTask':
-        this.inProgressTasks.push(this.inProgessing());
-        this.inprogressed = false;
-        this.toggle = true;
         break;
 
       default:
         break;
     }
+
+    console.log(this.completeTasks.value);
   }
-  completeTaskValidation(index: number) {
+  completeTaskValidation(index: number){
     return (this.completedTask = this.completeTasks.controls[
       index
-    ] as FormGroup);
+    ] as FormGroup)
   }
   inProgressTaskValidation(index: number) {
     return (this.inProgressedTask = this.inProgressTasks.controls[
