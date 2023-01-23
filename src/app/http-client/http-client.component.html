@@ -1,1 +1,97 @@
+<div class="tab-content" id="myTabContent">
+  <div
+    class="tab-pane fade active show"
+    id="home"
+    role="tabpanel"
+    aria-labelledby="home-tab"
+  >
+    <div class="update-label">
+      <h2>Registraion Form</h2>
+    </div>
+    <section class="background-img">
+      <div class="container">
+        <div class="row mb-4 d-flex">
+          <div class="col-md-6">
+            <form [formGroup]="userDetails" (ngSubmit)="addUser()">
+              <div class="mb-3 row">
+                <label for="name" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    formControlName="name"
+                  />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="userName" class="col-sm-2 col-form-label">Username</label>
+                <div class="col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    formControlName="username"
+                  />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    formControlName="email"
+                  />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+                <div class="col-sm-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    formControlName="phone"
+                  />
+                </div>
+              </div>
+              <button class="btn btn-info">
+                submit.
 
+              </button>
+
+            </form>
+          </div>
+          <div class="col-md-6">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>UsersName</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let userData of usersData">
+                  <tr>
+                    <td>{{ userData.name }}</td>
+                    <td>{{ userData.username }}</td>
+                    <td>{{ userData.email }}</td>
+                    <td>{{ userData.phone }}</td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
