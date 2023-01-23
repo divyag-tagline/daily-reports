@@ -6,17 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
 import { DailyReportComponent } from './daily-report/daily-report.component';
+import { HttpClientComponent } from './http-client/http-client.component';
+import {HttpClientModule} from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
     DailyUpdatesComponent,
-    DailyReportComponent
+    DailyReportComponent,
+    HttpClientComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
