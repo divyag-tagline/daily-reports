@@ -5,11 +5,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
+import { DailyReportComponent } from './daily-report/daily-report.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DailyUpdatesComponent
+    DailyUpdatesComponent,
+    DailyReportComponent
   ],
   imports: [
     BrowserModule,
