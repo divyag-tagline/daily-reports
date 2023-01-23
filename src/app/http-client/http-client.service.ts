@@ -16,4 +16,9 @@ export class HttpClientService {
   displyUser(){
     return this.http.get(`${environment.baseURL}/users`);
   }
+
+  deleteUser(index : number){
+    return  this.http
+    .delete(`https://jsonplaceholder.typicode.com/posts/${index}`)
+  }
 }

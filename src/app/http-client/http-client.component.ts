@@ -56,17 +56,23 @@ export class HttpClientComponent implements OnInit {
     // console.log("valid",this.userDetails.valid);
     // else {
     // if (this.userDetails.valid) {
-      let details = {
-        id: +this.usersData.length + 1,
-        ...this.userDetails.value,
-      };
-      this.httpClientService.addUser(details).subscribe((res) => {
-        if (res) {
-          this.usersData.push(res);
-        }
-        console.log('res :>> ', res);
-      });
+    let details = {
+      id: +this.usersData.length + 1,
+      ...this.userDetails.value,
+    };
+    this.httpClientService.addUser(details).subscribe((res) => {
+      if (res) {
+        this.usersData.push(res);
+      }
+      console.log('res :>> ', res);
+    });
     // }
     this.userDetails.reset();
+  }
+
+  handleDelete(index: number) {
+    this.httpClientService
+      .deleteUser(index)
+      .subscribe(() => this.usersData.splice(index, 1));
   }
 }
