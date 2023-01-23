@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../environments/environment';
+import { HttpClientService } from './http-client.service';
 
 @Component({
   selector: 'app-http-client',
@@ -9,35 +10,63 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./http-client.component.scss'],
 })
 export class HttpClientComponent implements OnInit {
-  usersData!: any;
-  user: any;
+  usersData: any = [];
   userDetails!: FormGroup;
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  submitted = false;
+
+  constructor(
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private httpClientService: HttpClientService
+  ) {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
-      username: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
       email: ['', Validators.required],
       phone: ['', Validators.required],
     });
-    this.http.get(`${environment.baseURL}/users`).subscribe((data) => {
+  }
+
+  ngOnInit(): void {
+    this.displayDetails();
+  }
+
+  get useDetailsControls() {
+    return this.userDetails.controls;
+  }
+
+  displayDetails(): void {
+    this.httpClientService.displyUser().subscribe((data) => {
       this.usersData = data;
       console.log(this.usersData);
     });
   }
 
-  ngOnInit(): void {}
+  addUser(): void {
+    // if (this.userDetails.invalid) {
+    //   this.submitted = true;
+    //   console.log(this.submitted);
+    //   return;
+    // }else{
+    //   this.submitted = false;
+    //   console.log("submit",this.submitted);
 
-  addUser(): any {
-    let details = {
-      id: +this.usersData.length + 1,
-      ...this.userDetails.value,
-    };
-    console.log(details);
-    this.http
-      .post(`${environment.baseURL}/users`, details)
-      .subscribe((data) => {
-        this.usersData.push(data);
+    // }
+    // console.log("invalid",this.userDetails.invalid);
+    // console.log("valid",this.userDetails.valid);
+    // else {
+    // if (this.userDetails.valid) {
+      let details = {
+        id: +this.usersData.length + 1,
+        ...this.userDetails.value,
+      };
+      this.httpClientService.addUser(details).subscribe((res) => {
+        if (res) {
+          this.usersData.push(res);
+        }
+        console.log('res :>> ', res);
       });
+    // }
     this.userDetails.reset();
   }
 }
