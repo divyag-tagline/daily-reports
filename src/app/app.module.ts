@@ -7,14 +7,16 @@ import { AppComponent } from './app.component';
 import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
 import { DailyReportComponent } from './daily-report/daily-report.component';
 import { HttpClientComponent } from './http-client/http-client.component';
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
+import { ProductComponent } from './product/product.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     DailyUpdatesComponent,
     DailyReportComponent,
-    HttpClientComponent
+    HttpClientComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
