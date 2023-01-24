@@ -13,9 +13,12 @@ export class HttpClientComponent implements OnInit {
   usersData: any = [];
   userDetails!: FormGroup;
   submitted = false;
+  editId!: number;
+  detailsId!: number;
+  patchId!: number;
+  patchDetailsId!: number;
 
   constructor(
-    private http: HttpClient,
     private formBuilder: FormBuilder,
     private httpClientService: HttpClientService
   ) {
@@ -38,35 +41,47 @@ export class HttpClientComponent implements OnInit {
   displayDetails(): void {
     this.httpClientService.displyUser().subscribe((data) => {
       this.usersData = data;
-      console.log(this.usersData);
     });
   }
 
-  addUser(): void {
-    // if (this.userDetails.invalid) {
-    //   this.submitted = true;
-    //   console.log(this.submitted);
-    //   return;
-    // }else{
-    //   this.submitted = false;
-    //   console.log("submit",this.submitted);
+  addUser() {
+    if (this.editId) {
+      let editDteails = (this.usersData[this.detailsId] = {
+        id: this.editId,
+        ...this.userDetails.value,
+      });
 
-    // }
-    // console.log("invalid",this.userDetails.invalid);
-    // console.log("valid",this.userDetails.valid);
-    // else {
-    // if (this.userDetails.valid) {
-    let details = {
-      id: +this.usersData.length + 1,
-      ...this.userDetails.value,
-    };
-    this.httpClientService.addUser(details).subscribe((res) => {
-      if (res) {
-        this.usersData.push(res);
-      }
-      console.log('res :>> ', res);
-    });
-    // }
+      this.httpClientService
+        .editUser(editDteails, this.editId)
+        .subscribe((data) => console.log(data));
+
+      this.editId = 0;
+    } else if (this.patchId) {
+      let patchValue = (this.usersData[this.patchDetailsId] = {
+        email: 'divu@gmail.com',
+      });
+
+      this.httpClientService
+        .patchUser(patchValue, this.patchId)
+        .subscribe((res) => {
+          if (res) {
+            this.usersData[this.patchDetailsId] = {
+              ...res,
+            };
+          }
+        });
+    } else {
+      let details = {
+        id: +this.usersData.length + 1,
+        ...this.userDetails.value,
+      };
+
+      this.httpClientService.addUser(details).subscribe((res) => {
+        if (res) {
+          this.usersData.push(res);
+        }
+      });
+    }
     this.userDetails.reset();
   }
 
@@ -74,5 +89,17 @@ export class HttpClientComponent implements OnInit {
     this.httpClientService
       .deleteUser(index)
       .subscribe(() => this.usersData.splice(index, 1));
+  }
+
+  handleEdit(details: any, index: number) {
+    this.userDetails.patchValue(details);
+    this.editId = details.id;
+    this.detailsId = index;
+  }
+
+  handlePatch(details: any, index: number) {
+    this.userDetails.patchValue(details);
+    this.patchId = details.id;
+    this.patchDetailsId = index;
   }
 }

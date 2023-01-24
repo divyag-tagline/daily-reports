@@ -2,10 +2,10 @@
 <!-- <app-daily-report></app-daily-report> -->
 <!-- <app-http-client></app-http-client> -->
 <div class="top-menu">
-    <img src="../../assets/logo.jpg" alt="logo" />
-  </div>
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item active waves-effect waves-right">
+  <img src="../../assets/logo.jpg" alt="logo" />
+</div>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <!-- <li class="nav-item active waves-effect waves-right">
       <a
         class="nav-link active"
         id="home-tab"
@@ -16,18 +16,20 @@
         aria-selected="false"
         >Daily Updates</a
       >
-    </li>
-    <li class="nav-item waves-effect waves-light">
+    </li> -->
+  <ng-container *ngFor="let header of headers">
+    <li class="nav-item" >
       <a
         class="nav-link"
         id="profile-tab"
         data-toggle="tab"
-        routerLink="http"
+        [routerLink]="header.link"
         role="tab"
         aria-controls="profile"
         aria-selected="true"
-        >Request For Leave</a
+        >{{ header.name }}</a
       >
     </li>
-  </ul>
+  </ng-container>
+</ul>
 <router-outlet></router-outlet>

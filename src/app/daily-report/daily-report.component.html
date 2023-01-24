@@ -373,7 +373,7 @@
                 >
                   <p class="subject-style">
                     <span id="set_project_name"
-                      >Updates for as on 18 January, 2023</span
+                      >Updates for as on {{dates | date : "dd MMMM yyyy" }}</span
                     >
                   </p>
                   <div id="h_copy_b" class="h_copy_b">
@@ -400,8 +400,7 @@
                   >
                     <span id="set_project_name_f"
                       >Following are the updates for
-                      {{ dailyUpdates.value.projectName }} as on 18 January,
-                      2023</span
+                      {{ dailyUpdates.value.projectName }} as on {{dates | date : "dd MMMM yyyy" }}</span
                     >
                   </p>
                 </ng-container>

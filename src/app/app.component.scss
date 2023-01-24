@@ -19,9 +19,9 @@ img {
     border-style: none;
 }
 
-.nav-tabs {
-    border-bottom: 1px solid #dee2e6;
-}
+// .nav-tabs {
+//     border-bottom: 1px solid #dee2e6;
+// }
 
 .nav {
     display: flex;
@@ -29,6 +29,7 @@ img {
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    border: none;
 }
 
 ul {
@@ -42,13 +43,15 @@ ul {
     box-sizing: border-box;
 }
 
+.nav .nav-tabs{
+    border: none;
+}
 .nav-tabs .nav-item {
     margin-bottom: -1px;
 }
 
 .nav-tabs li {
     width: 50%;
-    background-color: #FBEEE8;
 }
 
 body {
@@ -60,7 +63,7 @@ li {
 }
 
 .nav-tabs .nav-link {
-    border: 1px solid transparent;
+    // border: 1px solid transparent;
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
 }
@@ -82,11 +85,11 @@ a {
     background-color: transparent;
 }
 
-a#home-tab,
 a#profile-tab {
     color: #DA6122;
 }
 
-li .waves-right {
+li a:focus {
     background-color: #FBEEE8;
+    border-bottom: 1px solid #FBEEE8;
 }

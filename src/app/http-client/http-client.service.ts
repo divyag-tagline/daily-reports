@@ -13,12 +13,19 @@ export class HttpClientService {
     return this.http.post(`${environment.baseURL}/users`, userDetails);
   }
 
-  displyUser(){
+  displyUser() {
     return this.http.get(`${environment.baseURL}/users`);
   }
 
-  deleteUser(index : number){
-    return  this.http
-    .delete(`https://jsonplaceholder.typicode.com/posts/${index}`)
+  deleteUser(index: number) {
+    return this.http.delete(`${environment.baseURL}/users/${index}`);
+  }
+
+  editUser(data: any, index: number) {
+    return this.http.put(`${environment.baseURL}/users/${index}`, data);
+  }
+
+  patchUser(data: any, index: number) {
+    return this.http.patch(`${environment.baseURL}/users/${index}`, data);
   }
 }
