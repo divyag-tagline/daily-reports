@@ -1,7 +1,3 @@
-li .waves-right {
-    background-color: #FBEEE8;
-}
-
 .update-label {
     text-align: center;
     margin: 40px 0 50px;
@@ -24,6 +20,7 @@ li .waves-right {
     height: 3px;
     background: #DA6427;
 }
+
 .container {
     width: 100%;
     padding-right: 5px;
@@ -38,4 +35,8 @@ li .waves-right {
 label {
     display: inline-block;
     margin-bottom: 0.5rem;
+}
+
+.vl {
+    border-left: 1px ;
 }

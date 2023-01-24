@@ -20,8 +20,9 @@ export class DailyReportComponent implements OnInit {
   pendingTasked!: boolean;
   query!: boolean;
   note!: boolean;
-  dates = new Date(Date.now()).toISOString()
-  .split('T')[0]
+  public showMyMessage = false;
+
+  dates = new Date(Date.now()).toISOString().split('T')[0];
 
   constructor(private formBuilder: FormBuilder) {
     this.dailyUpdates = this.formBuilder.group({
@@ -145,7 +146,12 @@ export class DailyReportComponent implements OnInit {
   }
 
   copyToClipboard() {
+    this.showMyMessage = true
     const copyText = document.getElementById('textCopy') as HTMLElement;
-    navigator.clipboard.writeText(copyText.innerText); 
+    navigator.clipboard.writeText(copyText.innerText);
+    
+  }
+  hideText(){
+    this.showMyMessage = false
   }
 }

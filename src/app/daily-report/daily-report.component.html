@@ -42,344 +42,369 @@
       <div class="container">
         <div class="row mb-4 d-flex">
           <div class="col-md-6">
-            <form [formGroup]="dailyUpdates">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-label">Client Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="clientName"
-                      placeholder="Enter Client Name"
-                      formControlName="clientName"
-                      id="clientName"
-                    />
+            <div class="justify-content-start">
+              <form [formGroup]="dailyUpdates">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-label">Client Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="clientName"
+                        placeholder="Enter Client Name"
+                        formControlName="clientName"
+                        id="clientName"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label class="form-label">Project Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="projectName"
+                        placeholder="Enter Project Name"
+                        formControlName="projectName"
+                        id="projectName"
+                      />
+                    </div>
                   </div>
                 </div>
 
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <label class="form-label">Project Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      name="projectName"
-                      placeholder="Enter Project Name"
-                      formControlName="projectName"
-                      id="projectName"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group position-relative">
-                <label class="form-label">List of Completed Tasks :</label>
-                <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="completeTask">
-                    <ng-container
-                      *ngFor="let task of completeTasks.controls; let i = index"
-                    >
-                      <div class="multi-field">
-                        <input
-                          type="text"
-                          name="completedtasks"
-                          class="form-control custom-input list_of_completed_tasks"
-                          placeholder="Completed task"
-                          [formControlName]="i"
-                        />
-                        <button
-                          type="button"
-                          class="custom-btn remove-field rct"
-                          [ngStyle]="{
-                            display:
-                              toggle && completeTasks.controls.length > 1
-                                ? 'block'
-                                : 'none'
-                          }"
-                          (click)="
-                            removeOrClearCompletingTask(i, 'addCompleteTask')
+                <div class="form-group position-relative">
+                  <label class="form-label">List of Completed Tasks :</label>
+                  <div class="multi-field-wrapper">
+                    <div class="multi-fields" formArrayName="completeTask">
+                      <ng-container
+                        *ngFor="
+                          let task of completeTasks.controls;
+                          let i = index
+                        "
+                      >
+                        <div class="multi-field">
+                          <input
+                            type="text"
+                            name="completedtasks"
+                            class="form-control custom-input list_of_completed_tasks"
+                            placeholder="Completed task"
+                            [formControlName]="i"
+                          />
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && completeTasks.controls.length > 1
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="
+                              removeOrClearCompletingTask(i, 'addCompleteTask')
+                            "
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="custom-add-btn add-field ml-2"
+                            (click)="onAddTaks('addCompleteTask')"
+                          >
+                            <i class="fas fa-plus"></i>
+                          </button>
+                          <br />
+                        </div>
+                        <ng-container
+                          *ngIf="
+                            (completed && completeTasks.controls[i].pristine) ||
+                            (completeTasks.controls[i].touched &&
+                              completeTasks.controls[i].invalid &&
+                              completeTasks.controls[i].pristine)
                           "
                         >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="custom-add-btn add-field ml-2"
-                          (click)="onAddTaks('addCompleteTask')"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                        <br />
-                      </div>
-                      <ng-container
-                        *ngIf="
-                          (completed && completeTasks.controls[i].pristine) ||
-                          (completeTasks.controls[i].touched &&
-                            completeTasks.controls[i].invalid &&
-                            completeTasks.controls[i].pristine)
-                        "
-                      >
-                        <p class="err_list_of_completed_tasks text-danger">
-                          Please fill this first
-                        </p>
+                          <p class="err_list_of_completed_tasks text-danger">
+                            Please fill this first
+                          </p>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group position-relative">
-                <label class="form-label">List of In-Progress Tasks:</label>
-                <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="inProgressTask">
-                    <ng-container
-                      *ngFor="
-                        let task of inProgressTasks.controls;
-                        let i = index
-                      "
-                    >
-                      <div class="multi-field">
-                        <input
-                          type="text"
-                          name="inprogress_tasks[]"
-                          class="form-control custom-input list_of_in_progress_tasks"
-                          placeholder="In-progress task"
-                          [formControlName]="i"
-                        />
-                        <button
-                          type="button"
-                          class="custom-btn remove-field rct"
-                          [ngStyle]="{
-                            display:
-                              toggle && inProgressTasks.controls.length > 1
-                                ? 'block'
-                                : 'none'
-                          }"
-                          (click)="
-                            removeOrClearCompletingTask(i, 'addInProgressTask')
+                <div class="form-group position-relative">
+                  <label class="form-label">List of In-Progress Tasks:</label>
+                  <div class="multi-field-wrapper">
+                    <div class="multi-fields" formArrayName="inProgressTask">
+                      <ng-container
+                        *ngFor="
+                          let task of inProgressTasks.controls;
+                          let i = index
+                        "
+                      >
+                        <div class="multi-field">
+                          <input
+                            type="text"
+                            name="inprogress_tasks[]"
+                            class="form-control custom-input list_of_in_progress_tasks"
+                            placeholder="In-progress task"
+                            [formControlName]="i"
+                          />
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && inProgressTasks.controls.length > 1
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="
+                              removeOrClearCompletingTask(
+                                i,
+                                'addInProgressTask'
+                              )
+                            "
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="custom-add-btn add-field ml-2"
+                            (click)="onAddTaks('addInProgressTask')"
+                          >
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                        <ng-container
+                          *ngIf="
+                            (inprogressed &&
+                              inProgressTasks.controls[i].pristine) ||
+                            (inProgressTasks.controls[i].touched &&
+                              inProgressTasks.controls[i].invalid &&
+                              inProgressTasks.controls[i].pristine)
                           "
                         >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="custom-add-btn add-field ml-2"
-                          (click)="onAddTaks('addInProgressTask')"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <ng-container
-                        *ngIf="
-                          (inprogressed &&
-                            inProgressTasks.controls[i].pristine) ||
-                          (inProgressTasks.controls[i].touched &&
-                            inProgressTasks.controls[i].invalid &&
-                            inProgressTasks.controls[i].pristine)
-                        "
-                      >
-                        <p class="err_list_of_completed_tasks text-danger">
-                          Please fill this first
-                        </p>
+                          <p class="err_list_of_completed_tasks text-danger">
+                            Please fill this first
+                          </p>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
+                    </div>
+
+                    <p class="err_list_of_in_progress_tasks"></p>
                   </div>
-
-                  <p class="err_list_of_in_progress_tasks"></p>
                 </div>
-              </div>
 
-              <div class="form-group position-relative">
-                <label class="form-label">List of Pending Tasks:</label>
-                <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="pendingTask">
-                    <ng-container
-                      *ngFor="let task of pendinged.controls; let i = index"
-                    >
-                      <div class="multi-field">
-                        <input
-                          type="text"
-                          name="pending_tasks[]"
-                          class="form-control custom-input list_of_pending_tasks"
-                          placeholder="Pending task"
-                          [formControlName]="i"
-                        />
-                        <button
-                          type="button"
-                          class="custom-btn remove-field rct"
-                          [ngStyle]="{
-                            display:
-                              toggle && pendinged.controls.length > 1
-                                ? 'block'
-                                : 'none'
-                          }"
-                          (click)="
-                            removeOrClearCompletingTask(i, 'addPendingTask')
+                <div class="form-group position-relative">
+                  <label class="form-label">List of Pending Tasks:</label>
+                  <div class="multi-field-wrapper">
+                    <div class="multi-fields" formArrayName="pendingTask">
+                      <ng-container
+                        *ngFor="let task of pendinged.controls; let i = index"
+                      >
+                        <div class="multi-field">
+                          <input
+                            type="text"
+                            name="pending_tasks[]"
+                            class="form-control custom-input list_of_pending_tasks"
+                            placeholder="Pending task"
+                            [formControlName]="i"
+                          />
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && pendinged.controls.length > 1
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="
+                              removeOrClearCompletingTask(i, 'addPendingTask')
+                            "
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="custom-add-btn add-field ml-2"
+                            (click)="onAddTaks('addPendingTask')"
+                          >
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                        <ng-container
+                          *ngIf="
+                            (pendingTasked && pendinged.controls[i].pristine) ||
+                            (pendinged.controls[i].touched &&
+                              pendinged.controls[i].invalid &&
+                              pendinged.controls[i].pristine)
                           "
                         >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="custom-add-btn add-field ml-2"
-                          (click)="onAddTaks('addPendingTask')"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <ng-container
-                        *ngIf="
-                          (pendingTasked && pendinged.controls[i].pristine) ||
-                          (pendinged.controls[i].touched &&
-                            pendinged.controls[i].invalid &&
-                            pendinged.controls[i].pristine)
-                        "
-                      >
-                        <p class="err_list_of_pending_tasks text-danger">
-                          Please fill this first
-                        </p>
+                          <p class="err_list_of_pending_tasks text-danger">
+                            Please fill this first
+                          </p>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group position-relative">
-                <label class="form-label">Queries:</label>
-                <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="queries">
-                    <ng-container
-                      *ngFor="let task of quered.controls; let i = index"
-                    >
-                      <div class="multi-field">
-                        <input
-                          type="text"
-                          name="queries[]"
-                          class="form-control custom-input queries"
-                          placeholder="Queries"
-                          [formControlName]="i"
-                        />
-                        <button
-                          type="button"
-                          class="custom-btn remove-field rct"
-                          [ngStyle]="{
-                            display:
-                              toggle && quered.controls.length > 1
-                                ? 'block'
-                                : 'none'
-                          }"
-                          (click)="removeOrClearCompletingTask(i, 'addQueries')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="custom-add-btn add-field ml-2"
-                          (click)="onAddTaks('addQueries')"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
+                <div class="form-group position-relative">
+                  <label class="form-label">Queries:</label>
+                  <div class="multi-field-wrapper">
+                    <div class="multi-fields" formArrayName="queries">
                       <ng-container
-                        *ngIf="
-                          (query && quered.controls[i].pristine) ||
-                          (quered.controls[i].touched &&
-                            quered.controls[i].invalid &&
-                            quered.controls[i].pristine)
-                        "
+                        *ngFor="let task of quered.controls; let i = index"
                       >
-                        <p class="err_list_of_pending_tasks text-danger">
-                          Please fill this first
-                        </p>
+                        <div class="multi-field">
+                          <input
+                            type="text"
+                            name="queries[]"
+                            class="form-control custom-input queries"
+                            placeholder="Queries"
+                            [formControlName]="i"
+                          />
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && quered.controls.length > 1
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="
+                              removeOrClearCompletingTask(i, 'addQueries')
+                            "
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="custom-add-btn add-field ml-2"
+                            (click)="onAddTaks('addQueries')"
+                          >
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                        <ng-container
+                          *ngIf="
+                            (query && quered.controls[i].pristine) ||
+                            (quered.controls[i].touched &&
+                              quered.controls[i].invalid &&
+                              quered.controls[i].pristine)
+                          "
+                        >
+                          <p class="err_list_of_pending_tasks text-danger">
+                            Please fill this first
+                          </p>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group position-relative">
-                <label class="form-label">Notes:</label>
-                <div class="multi-field-wrapper">
-                  <div class="multi-fields" formArrayName="notes">
-                    <ng-container
-                      *ngFor="let task of noted.controls; let i = index"
-                    >
-                      <div class="multi-field">
-                        <input
-                          type="text"
-                          name="note"
-                          class="form-control custom-input notes"
-                          placeholder="Notes"
-                          [formControlName]="i"
-                        />
-                        <button
-                          type="button"
-                          class="custom-btn remove-field rct"
-                          [ngStyle]="{
-                            display:
-                              toggle && noted.controls.length > 1
-                                ? 'block'
-                                : 'none'
-                          }"
-                          (click)="removeOrClearCompletingTask(i, 'addNote')"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                        <button
-                          type="button"
-                          class="custom-add-btn add-field ml-2"
-                          (click)="onAddTaks('addNote')"
-                        >
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
+                <div class="form-group position-relative">
+                  <label class="form-label">Notes:</label>
+                  <div class="multi-field-wrapper">
+                    <div class="multi-fields" formArrayName="notes">
                       <ng-container
-                        *ngIf="
-                          (note && noted.controls[i].pristine) ||
-                          (noted.controls[i].touched &&
-                            noted.controls[i].invalid &&
-                            noted.controls[i].pristine)
-                        "
+                        *ngFor="let task of noted.controls; let i = index"
                       >
-                        <p class="err_list_of_pending_tasks text-danger">
-                          Please fill this first
-                        </p>
+                        <div class="multi-field">
+                          <input
+                            type="text"
+                            name="note"
+                            class="form-control custom-input notes"
+                            placeholder="Notes"
+                            [formControlName]="i"
+                          />
+                          <button
+                            type="button"
+                            class="custom-btn remove-field rct"
+                            [ngStyle]="{
+                              display:
+                                toggle && noted.controls.length > 1
+                                  ? 'block'
+                                  : 'none'
+                            }"
+                            (click)="removeOrClearCompletingTask(i, 'addNote')"
+                          >
+                            <i class="fas fa-trash"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="custom-add-btn ml-2"
+                            (click)="onAddTaks('addNote')"
+                          >
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </div>
+                        <ng-container
+                          *ngIf="
+                            (note && noted.controls[i].pristine) ||
+                            (noted.controls[i].touched &&
+                              noted.controls[i].invalid &&
+                              noted.controls[i].pristine)
+                          "
+                        >
+                          <p class="err_list_of_pending_tasks text-danger">
+                            Please fill this first
+                          </p>
+                        </ng-container>
                       </ng-container>
-                    </ng-container>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group mb-0">
-                <label class="form-label">Your Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="your_name"
-                  placeholder="Enter Client Name"
-                  id="get_your_name"
-                  formControlName="name"
-                />
-              </div>
-            </form>
+                <div class="form-group mb-0">
+                  <label class="form-label">Your Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="your_name"
+                    placeholder="Enter Client Name"
+                    id="get_your_name"
+                    formControlName="name"
+                  />
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="col-lg-6">
-            <div class="right-side-content" id="textCopy">
+          <div class="col-lg-1">
+            <ng-container *ngIf="dailyUpdates.dirty">
+              <div class="vl"></div>
+            </ng-container>
+          </div>
+          <div class="col-lg-5">
+            <div class="justify-content-end" id="textCopy">
               <ng-container *ngIf="dailyUpdatesControls['projectName'].dirty">
                 <div
                   id="email-subject"
-                  class="email-subject d-flex justify-content-between"
+                  class="email-subject d-flex justify-content-between w-100"
                 >
                   <p class="subject-style">
                     <span id="set_project_name"
-                      >Updates for as on {{dates | date : "dd MMMM yyyy" }}</span
+                      >Updates for as on
+                      {{ dates | date : "dd MMMM yyyy" }}</span
                     >
                   </p>
-                  <div id="h_copy_b" class="h_copy_b">
-                    <button class="custom-add-btn" (click)="copyToClipboard()">
+                  <div id="h_copy_b">
+                    <button
+                      class="custom-add-btn"
+                      (click)="copyToClipboard()"
+                      (mousemove)="hideText()"
+                    >
                       <i class="fa fa-clone"></i>
                     </button>
+                    <span
+                      *ngIf="showMyMessage"
+                      style="color: #da6122; font-size: small"
+                      >Copy document..</span
+                    >
                   </div>
                   <p></p>
                 </div>
@@ -400,7 +425,8 @@
                   >
                     <span id="set_project_name_f"
                       >Following are the updates for
-                      {{ dailyUpdates.value.projectName }} as on {{dates | date : "dd MMMM yyyy" }}</span
+                      {{ dailyUpdates.value.projectName }} as on
+                      {{ dates | date : "dd MMMM yyyy" }}</span
                     >
                   </p>
                 </ng-container>
