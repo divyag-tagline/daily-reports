@@ -451,7 +451,7 @@
                     >
                       <ng-container
                         *ngIf="
-                          completeTasks.dirty && completeTasks.controls[i].dirty
+                          completeTasks.dirty && completeTasks.controls[i].dirty && completeTasks.controls[i].valid
                         "
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -482,7 +482,7 @@
                       <ng-container
                         *ngIf="
                           inProgressTasks.dirty &&
-                          inProgressTasks.controls[i].dirty
+                          inProgressTasks.controls[i].dirty && inProgressTasks.controls[i].valid
                         "
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -511,7 +511,7 @@
                       "
                     >
                       <ng-container
-                        *ngIf="pendinged.dirty && pendinged.controls[i].dirty"
+                        *ngIf="pendinged.dirty && pendinged.controls[i].dirty && pendinged.controls[i].valid"  
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <b>{{ i + 1 }}. {{ pendingtask.value }}</b
@@ -536,7 +536,7 @@
                       *ngFor="let query of quered.controls; let i = index"
                     >
                       <ng-container
-                        *ngIf="quered.dirty && quered.controls[i].dirty"
+                        *ngIf="quered.dirty && quered.controls[i].dirty && quered.controls[i].valid"
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {{ i + 1 }}. {{ query.value }}<br />
@@ -560,7 +560,7 @@
                       *ngFor="let noteTasks of noted.controls; let i = index"
                     >
                       <ng-container
-                        *ngIf="noted.dirty && noted.controls[i].dirty"
+                        *ngIf="noted.dirty && noted.controls[i].dirty && noted.controls[i].valid"
                       >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         {{ i + 1 }}. {{ noteTasks.value }}<br />

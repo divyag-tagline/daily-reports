@@ -1,1 +1,35 @@
-<p>product works!</p>
+<!-- Gallery -->
+<div class="row justify-content-center mx-auto mt-4 ">
+  <ng-container *ngFor="let product of products">
+    <div class="col-lg-3 mb-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-lg-4">
+              {{ product.title }}
+            </div>
+          </div>
+        </div>
+        <div class="card-body justify-content-center d-flex">
+          <div class="row">
+            <div class="col-lg-4">
+              <a routerLink="/{{product.id}}">
+                <img
+                  [src]="product.thumbnail"
+                  class="shadow-1-strong rounded mb-4 img"
+                  alt="Boat on Calm Water"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-lg-3">₹ {{ product.price }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+<!-- Gallery -->
