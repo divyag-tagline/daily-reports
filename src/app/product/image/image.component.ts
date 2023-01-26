@@ -11,18 +11,28 @@ import { ProductService } from '../product.service';
 export class ImageComponent implements OnInit {
   imageId!: number;
   productsDetails!: Product;
+  errorMessage!: string;
+
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((res) => {
-      this.productService
-        .getProductDetail(res['imageId'])
-        .subscribe((products: any) => {
-          this.productsDetails = products;
-        });
-    });
+    // this.route.params.subscribe((res) => {
+    //   if (res) {
+    //     this.productService
+    //       .getProductDetail(res['imageId'])
+    //       .subscribe((products: Product) => {
+    //         if (products) {
+    //           this.productsDetails = products;
+    //         } else {
+    //           this.errorMessage = 'Page not fount';
+    //         }
+    //       });
+    //   }
+    // });
+    this.productsDetails ? console.log(this.productsDetails.rating) : ''
+    
   }
 }

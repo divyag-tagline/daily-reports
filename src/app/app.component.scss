@@ -84,8 +84,7 @@ a {
 a#profile-tab {
     color: #DA6122;
 }
-
-li a:focus {
-    background-color: #FBEEE8;
+.active{
     border-bottom: 1px solid #FBEEE8;
+    background-color: #FBEEE8;
 }

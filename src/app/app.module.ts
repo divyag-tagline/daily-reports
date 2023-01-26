@@ -9,16 +9,14 @@ import { DailyReportComponent } from './daily-report/daily-report.component';
 import { HttpClientComponent } from './http-client/http-client.component';
 import {HttpClientModule} from '@angular/common/http';
 import { ProductComponent } from './product/product.component';
-import { ImageComponent } from './product/image/image.component'
+import { ImageComponent } from './product/image/image.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DailyUpdatesComponent,
     DailyReportComponent,
-    HttpClientComponent,
-    ProductComponent,
-    ImageComponent
+    HttpClientComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +24,8 @@ import { ImageComponent } from './product/image/image.component'
     ReactiveFormsModule,
     HttpClientModule
   ],
+  
+
   providers: [],
   bootstrap: [AppComponent]
 })

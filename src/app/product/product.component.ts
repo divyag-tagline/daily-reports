@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ProductService } from './product.service';
 export interface Product {
   id: number;
@@ -29,22 +28,20 @@ export class ProductComponent implements OnInit {
   products!: Product[];
   imageId!: number;
   constructor(
-    private productService: ProductService,
-    private route: ActivatedRoute
-  ) {
-    
-  }
+    private productService: ProductService
+  ) {}
 
   ngOnInit(): void {
-    this.displayProduct();
+    // this.displayProduct();
   }
 
-  displayProduct() {
-    this.productService.displyProducts().subscribe((data: any) => {
-      this.products = data.products;
-      console.log(data);
-    });
-  }
+  // displayProduct() {
+  //   this.productService.displyProducts().subscribe((res: Details) => {
+  //     if (res) {
+  //       this.products = res.products;
+  //     }
+  //   });
+  // }
 
   displayImage(id: number) {}
 }

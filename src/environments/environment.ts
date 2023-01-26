@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseURL : 'https://jsonplaceholder.typicode.com',
-  apiConfig: 'https://dummyjson.com/products'
+  // apiConfig: 'https://dummyjson.com/products'
 
 };
 

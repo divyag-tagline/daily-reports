@@ -11,6 +11,9 @@ const routes: Routes = [
   {
     path:':imageId',
     component:ImageComponent
+  },{
+    path:'**',
+    redirectTo:''
   }
 ];
 

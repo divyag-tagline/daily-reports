@@ -5,27 +5,28 @@ import { HttpClientComponent } from './http-client/http-client.component';
 import { ProductComponent } from './product/product.component';
 
 const routes: Routes = [
-  // {
-  //   path:'',
-  //   component:DailyReportComponent
-  // },
-  // {
-  //   path:'http',
-  //   component:HttpClientComponent
-  //   // component:ProductComponent
-  // },
   {
-    path:'',
-    loadChildren: () => import('./product/product.module').then(product => product.ProductModule)
+    path: 'report',
+    component: DailyReportComponent,
+    pathMatch: 'full',
   },
   {
-    path:'**',
-    redirectTo:''
-  }
+    path: 'http',
+    component: HttpClientComponent,
+    // component:ProductComponent
+  },
+  // {
+  //   path:'',
+  //   loadChildren: () => import('./product/product.module').then(product => product.ProductModule)
+  // },
+  {
+    path: '**',
+    redirectTo: 'report',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

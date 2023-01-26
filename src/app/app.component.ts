@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLinkActive } from '@angular/router';
 
 interface Headers {
   name: string;
@@ -15,7 +16,7 @@ export class AppComponent {
   headers: Headers[] = [
     {
       name: 'Daily Updates',
-      link: '',
+      link: 'report',
     },
     {
       name: 'Request For Leave',
@@ -23,5 +24,4 @@ export class AppComponent {
     },
   ];
 
-  
 }

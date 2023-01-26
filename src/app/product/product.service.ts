@@ -12,13 +12,13 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  displyProducts() {
-    return this.http.get(`${environment.apiConfig}`);
-  }
+  // displyProducts():Observable<any> {
+  //   return this.http.get(`${environment.apiConfig}`);
+  // }
 
-  getProductDetail(id:string){
-    return this.http.get(`${environment.apiConfig}/${id}`);
-  }
+  // getProductDetail(id:string):Observable<any>{
+  //   return this.http.get(`${environment.apiConfig}/${id}`);
+  // }
 
   // displayProductsDetails() {
   //   this.displyProducts().subscribe((products: any) => {

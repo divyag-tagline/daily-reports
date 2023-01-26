@@ -13,20 +13,20 @@ export class HttpClientService {
     return this.http.post(`${environment.baseURL}/users`, userDetails);
   }
 
-  displyUser() {
+  displyUser(): Observable<any> {
     return this.http.get(`${environment.baseURL}/users`);
     // return this.http.get('/audio/text/audio-transcription/');
   }
 
-  deleteUser(index: number) {
+  deleteUser(index: number): Observable<any> {
     return this.http.delete(`${environment.baseURL}/users/${index}`);
   }
 
-  editUser(data: any, index: number) {
+  editUser(data: any, index: number): Observable<any> {
     return this.http.put(`${environment.baseURL}/users/${index}`, data);
   }
 
-  patchUser(data: any, index: number) {
+  patchUser(data: any, index: number): Observable<any> {
     return this.http.patch(`${environment.baseURL}/users/${index}`, data);
   }
 }
