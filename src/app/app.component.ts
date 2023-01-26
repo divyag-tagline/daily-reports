@@ -19,7 +19,7 @@ export class AppComponent {
       link: 'report',
     },
     {
-      name: 'Request For Leave',
+      name: 'Registration Form',
       link: 'http',
     },
   ];
