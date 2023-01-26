@@ -56,7 +56,7 @@ export class HttpClientComponent implements OnInit {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', [Validators.required,Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
     });
   }
@@ -121,7 +121,7 @@ export class HttpClientComponent implements OnInit {
     this.httpClientService
       .deleteUser(this.deleteIndex)
       .subscribe(() => this.usersData.splice(this.deleteIndex, 1));
-    this.toastr.error('Your Record has been deleted.. ');
+    this.toastr.success('Your Record has been deleted.. ');
   }
 
   handleEdit(details: any, index: number) {
