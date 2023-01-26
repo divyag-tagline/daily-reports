@@ -113,18 +113,25 @@
       </div>
       <div class="card-footer">
         <button
-          class="btn btn-info text-white w-100"
-          type="submit"
+          [ngClass]="
+            toggle
+              ? 'btn btn-success text-white w-100'
+              : 'btn btn-info text-white  w-100'
+          "
           (click)="addUser()"
+          type="submit"
         >
-          submit
+          <ng-container *ngIf="toggle; then toggleIn; else toggleOut">
+          </ng-container>
+          <ng-template #toggleIn> Update </ng-template>
+          <ng-template #toggleOut> Submit </ng-template>
         </button>
       </div>
     </div>
   </div>
   <div class="col-lg-6">
     <table class="table table-striped">
-      <thead>
+      <thead class="table-dark">
         <tr>
           <th>Name</th>
           <th>UsersName</th>
@@ -171,40 +178,38 @@
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <ng-container *ngIf="getUser">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
-                      
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
                           {{ getUser.name }}
-                        
-                      </h5>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      Are you sure to delete {{getUser.name}}'s name?
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Close
-                      </button>
-                      <button
-                        type="button"
-                        data-bs-dismiss="modal"
-                        class="btn btn-danger"
-                        (click)="deleted()"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </ng-container>
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure to delete {{ getUser.name }}'s name?
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          data-bs-dismiss="modal"
+                          class="btn btn-danger"
+                          (click)="deleted()"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </ng-container>
                   </div>
                 </div>
               </div>

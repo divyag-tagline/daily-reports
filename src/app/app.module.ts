@@ -8,8 +8,9 @@ import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
 import { DailyReportComponent } from './daily-report/daily-report.component';
 import { HttpClientComponent } from './http-client/http-client.component';
 import {HttpClientModule} from '@angular/common/http';
-import { ProductComponent } from './product/product.component';
-import { ImageComponent } from './product/image/image.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +23,12 @@ import { ImageComponent } from './product/image/image.component';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      preventDuplicates: true,
+    })
   ],
   
 

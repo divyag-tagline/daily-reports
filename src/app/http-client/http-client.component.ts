@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 import { HttpClientService } from './http-client.service';
 
 interface User {
@@ -46,16 +46,17 @@ export class HttpClientComponent implements OnInit {
   patchId!: number;
   patchDetailsId!: number;
   deleteIndex!: number;
-  deletedId!: number;
+  toggle: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpClientService: HttpClientService
+    private httpClientService: HttpClientService,
+    private toastr: ToastrService
   ) {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required,Validators.email]],
       phone: ['', Validators.required],
     });
   }
@@ -70,7 +71,9 @@ export class HttpClientComponent implements OnInit {
 
   displayDetails(): void {
     this.httpClientService.displyUser().subscribe((data) => {
-      this.usersData = data;
+      if (data.length) {
+        this.usersData = data;
+      }
     });
   }
 
@@ -88,6 +91,8 @@ export class HttpClientComponent implements OnInit {
         this.httpClientService
           .editUser(editDteails, this.editId)
           .subscribe((data) => console.log(data));
+        this.toastr.info('Add Record Successfully !');
+        this.toggle = false;
         this.editId = 0;
       } else {
         let details = {
@@ -99,6 +104,7 @@ export class HttpClientComponent implements OnInit {
             this.usersData.push(res);
           }
         });
+        this.toastr.success('Add Record Successfully !');
       }
       this.submitted = false;
     }
@@ -115,12 +121,14 @@ export class HttpClientComponent implements OnInit {
     this.httpClientService
       .deleteUser(this.deleteIndex)
       .subscribe(() => this.usersData.splice(this.deleteIndex, 1));
+    this.toastr.error('Your Record has been deleted.. ');
   }
 
   handleEdit(details: any, index: number) {
     this.userDetails.patchValue(details);
     this.editId = details.id;
     this.detailsId = index;
+    this.toggle = true;
   }
 
   handlePatch(details: any, index: number) {
