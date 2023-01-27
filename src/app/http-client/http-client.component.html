@@ -116,7 +116,7 @@
           [ngClass]="
             toggle
               ? 'btn btn-success text-white w-100'
-              : 'btn btn-info text-white  w-100'
+              : 'btn btn-primary text-white  w-100'
           "
           (click)="addUser()"
           type="submit"
@@ -179,9 +179,9 @@
                   <div class="modal-content">
                     <ng-container *ngIf="getUser">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
+                        <h3 class="modal-title" id="exampleModalLabel">
                           {{ getUser.name }}
-                        </h5>
+                        </h3>
                         <button
                           type="button"
                           class="btn-close"
@@ -190,7 +190,9 @@
                         ></button>
                       </div>
                       <div class="modal-body">
-                        Are you sure to delete {{ getUser.name }}'s name?
+                        Are you sure to delete
+                        <u class="text-info fs-5">{{ getUser.name }}'s</u>
+                        name?
                       </div>
                       <div class="modal-footer">
                         <button
@@ -198,7 +200,7 @@
                           class="btn btn-secondary"
                           data-bs-dismiss="modal"
                         >
-                          Close
+                          Cancel
                         </button>
                         <button
                           type="button"

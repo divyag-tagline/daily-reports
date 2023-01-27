@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClientService } from './http-client.service';
-
 interface User {
   id: number;
   name: string;
@@ -53,6 +51,14 @@ export class HttpClientComponent implements OnInit {
     private httpClientService: HttpClientService,
     private toastr: ToastrService
   ) {
+    this.createUserForm();
+  }
+
+  ngOnInit(): void {
+    this.displayDetails();
+  }
+
+  createUserForm() {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
@@ -60,17 +66,14 @@ export class HttpClientComponent implements OnInit {
       phone: ['', Validators.required],
     });
   }
-
-  ngOnInit(): void {
-    this.displayDetails();
-  }
-
+  
   get useDetailsControls() {
     return this.userDetails.controls;
   }
 
   displayDetails(): void {
     this.httpClientService.displyUser().subscribe((data) => {
+      console.log(data);
       if (data.length) {
         this.usersData = data;
       }
@@ -88,10 +91,14 @@ export class HttpClientComponent implements OnInit {
           ...this.userDetails.value,
         });
 
-        this.httpClientService
-          .editUser(editDteails, this.editId)
-          .subscribe((data) => console.log(data));
-        this.toastr.info('Add Record Successfully !');
+        this.httpClientService.editUser(editDteails, this.editId).subscribe(
+          (res) => (
+            (this.usersData[this.editId] = res),
+            this.toastr.info('Update Record Successfully !')
+          ),
+
+          (err) => this.toastr.error(err.message)
+        );
         this.toggle = false;
         this.editId = 0;
       } else {
