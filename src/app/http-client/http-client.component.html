@@ -25,7 +25,9 @@
                   useDetailsControls['name'].invalid) ||
                 (submitted &&
                   useDetailsControls['name'].pristine &&
-                  useDetailsControls['name'].invalid)
+                  useDetailsControls['name'].invalid) ||
+                (useDetailsControls['name'].invalid &&
+                  useDetailsControls['name'].dirty)
               "
             >
               Name is required
@@ -52,7 +54,9 @@
                   useDetailsControls['username'].invalid) ||
                 (submitted &&
                   useDetailsControls['username'].pristine &&
-                  useDetailsControls['username'].invalid)
+                  useDetailsControls['username'].invalid) ||
+                (useDetailsControls['username'].invalid &&
+                  useDetailsControls['username'].dirty)
               "
             >
               Username is required
@@ -65,7 +69,7 @@
                 type="email"
                 class="form-control"
                 id="email"
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
                 name="email"
                 formControlName="email"
               />
@@ -78,7 +82,10 @@
                   useDetailsControls['email'].pristine) ||
                 (submitted &&
                   useDetailsControls['email'].pristine &&
-                  useDetailsControls['email'].invalid)
+                  useDetailsControls['email'].invalid &&
+                  userDetails.get('email')?.errors) ||
+                (useDetailsControls['email'].invalid &&
+                  useDetailsControls['email'].dirty)
               "
             >
               Email is required
@@ -103,7 +110,9 @@
                   useDetailsControls['phone'].touched) ||
                 (submitted &&
                   useDetailsControls['phone'].pristine &&
-                  useDetailsControls['phone'].invalid)
+                  useDetailsControls['phone'].invalid) ||
+                (useDetailsControls['phone'].invalid &&
+                  useDetailsControls['phone'].dirty)
               "
             >
               Phone is required

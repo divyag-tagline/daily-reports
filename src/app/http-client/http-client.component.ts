@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, map, Observable, Observer } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { HttpClientService } from './http-client.service';
-interface User {
+import { HttpClient } from '@angular/common/http';
+export interface User {
   id: number;
   name: string;
   username: string;
@@ -35,7 +38,7 @@ interface Company {
   styleUrls: ['./http-client.component.scss'],
 })
 export class HttpClientComponent implements OnInit {
-  usersData!: User[];
+  usersData!: any;
   userDetails!: FormGroup;
   getUser!: User;
   submitted: Boolean = false;
@@ -45,6 +48,9 @@ export class HttpClientComponent implements OnInit {
   patchDetailsId!: number;
   deleteIndex!: number;
   toggle: boolean = false;
+  private _todos = new BehaviorSubject<User[]>([]);
+  public dataStore: User[] = [];
+  readonly todos = this._todos.asObservable();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,18 +72,33 @@ export class HttpClientComponent implements OnInit {
       phone: ['', Validators.required],
     });
   }
-  
+
   get useDetailsControls() {
     return this.userDetails.controls;
   }
 
-  displayDetails(): void {
-    this.httpClientService.displyUser().subscribe((data) => {
-      console.log(data);
-      if (data.length) {
-        this.usersData = data;
-      }
+  public displayDetails() {
+    //observerable with observer
+    let customeObservable = Observable.create((observer: Observer<any>) => {
+      setInterval(() => {
+        observer.next(this.usersData);
+        observer.complete();
+      }, 9000);
     });
+
+    customeObservable.subscribe((data: any) => {
+      this.dataStore = data;
+      console.log('this.dataStore :>> ', this.dataStore);
+    });
+    // this.httpClientService
+    //   .displyUser()
+    //   .pipe(map((users: any) => users.map((user: any) => console.log(user))));
+    this.httpClientService.displyUser().subscribe(
+      (res) => {
+        this.usersData = res;
+      },
+      (err) => this.toastr.error(err.message)
+    );
   }
 
   addUser() {
@@ -96,24 +117,28 @@ export class HttpClientComponent implements OnInit {
             (this.usersData[this.editId] = res),
             this.toastr.info('Update Record Successfully !')
           ),
-
           (err) => this.toastr.error(err.message)
         );
         this.toggle = false;
         this.editId = 0;
+        this.submitted = false;
       } else {
         let details = {
           id: +this.usersData.length + 1,
           ...this.userDetails.value,
         };
-        this.httpClientService.addUser(details).subscribe((res) => {
-          if (res) {
-            this.usersData.push(res);
-          }
-        });
-        this.toastr.success('Add Record Successfully !');
+
+        this.httpClientService.addUser(details).subscribe(
+          (res) => {
+            if (res) {
+              this.dataStore.push(res);
+              this.toastr.success('Add Record Successfully !');
+            }
+          },
+          (err) => this.toastr.error(err.message)
+        );
+        this.submitted = false;
       }
-      this.submitted = false;
     }
     this.userDetails.reset();
   }
@@ -121,19 +146,25 @@ export class HttpClientComponent implements OnInit {
   handleDelete(index: number, detail: User) {
     this.deleteIndex = index;
     this.getUser = detail;
-    console.log(this.getUser);
   }
 
   deleted() {
-    this.httpClientService
-      .deleteUser(this.deleteIndex)
-      .subscribe(() => this.usersData.splice(this.deleteIndex, 1));
-    this.toastr.success('Your Record has been deleted.. ');
+    this.httpClientService.deleteUser(this.deleteIndex).subscribe(
+      () => {
+        this.usersData.splice(this.deleteIndex, 1),
+          this.toastr.success('Your Record has been deleted.. ');
+      },
+      (err) => this.toastr.error(err.message)
+    );
   }
 
   handleEdit(details: any, index: number) {
+    
     this.userDetails.patchValue(details);
     this.editId = details.id;
+    if(details.invalid){
+      this.submitted = true
+    }
     this.detailsId = index;
     this.toggle = true;
   }
