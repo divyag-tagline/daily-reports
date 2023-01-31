@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   baseURL : 'https://jsonplaceholder.typicode.com',
   // apiConfig: 'https://dummyjson.com/products'
+  config:'https://gorest.co.in/public/v2/users'
 
 };
 

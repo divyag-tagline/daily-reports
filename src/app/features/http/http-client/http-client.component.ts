@@ -32,6 +32,7 @@ interface Company {
   catchPhrase: string;
   bs: string;
 }
+
 @Component({
   selector: 'app-http-client',
   templateUrl: './http-client.component.html',
@@ -45,6 +46,7 @@ export class HttpClientComponent implements OnInit {
   editId!: number;
   detailsId!: number;
   patchId!: number;
+  accessToken!: string;
   patchDetailsId!: number;
   deleteIndex!: number;
   toggle: boolean = false;
@@ -52,7 +54,6 @@ export class HttpClientComponent implements OnInit {
   private _todos = new BehaviorSubject<User[]>([]);
   dataStore: any;
   readonly todos = this._todos.asObservable();
-
   constructor(
     private formBuilder: FormBuilder,
     private httpClientService: HttpClientService,
@@ -62,10 +63,6 @@ export class HttpClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-  }
-
-  ngAfterContentInit(){
     this.displayDetails();
   }
   createUserForm() {
@@ -83,14 +80,14 @@ export class HttpClientComponent implements OnInit {
 
   public displayDetails() {
     //observerable with observer
-   
-    
+
     // this.httpClientService
     //   .displyUser()
     //   .pipe(map((users: any) => users.map((user: any) => console.log(user))));
     this.httpClientService.displyUser().subscribe(
       (res) => {
         this.usersData = res;
+
         // let customeObservable = Observable.create((observer: Observer<any>) => {
         //   setInterval(()=>{
         //     observer.next(this.usersData);
@@ -101,9 +98,9 @@ export class HttpClientComponent implements OnInit {
         //     unsubscribe():void {
         //       console.log('unsubscribe');
         //     },
-            
+
         //   };
-          
+
         // });
         // customeObservable.subscribe({
         //   next(res: any) {
@@ -117,9 +114,7 @@ export class HttpClientComponent implements OnInit {
         // console.log('this.dataStore :>> ', this.dataStore);
       },
       (err) => this.toastr.error(err.message)
-      
-      );
-      
+    );
   }
 
   addUser() {
@@ -154,6 +149,8 @@ export class HttpClientComponent implements OnInit {
             if (res) {
               this.usersData.push(res);
               this.toastr.success('Add Record Successfully !');
+              this.accessToken = 'fFAGRNJru1FTz70BzhT3Zg';
+              localStorage.setItem('token', this.accessToken);
             }
           },
           (err) => this.toastr.error(err.message)
@@ -193,5 +190,11 @@ export class HttpClientComponent implements OnInit {
     this.userDetails.patchValue(details);
     this.patchId = details.id;
     this.patchDetailsId = index;
+  }
+
+  blockCharacter(e: any) {
+    var x = e.which || e.keycode;
+    if (x >= 42 && x <= 57) return true;
+    else return false;
   }
 }

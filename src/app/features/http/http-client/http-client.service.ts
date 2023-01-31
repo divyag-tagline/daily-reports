@@ -20,7 +20,7 @@ export class HttpClientService {
   }
 
   displyUser():Observable<any> {
-    return this.http.get(`${environment.baseURL}/users`);
+    return this.http.get(`${environment.config}`);
   }
 
   deleteUser(index: number): Observable<any> {
@@ -34,4 +34,6 @@ export class HttpClientService {
   patchUser(data: any, index: number): Observable<any> {
     return this.http.patch(`${environment.baseURL}/users/${index}`, data);
   }
+
+
 }

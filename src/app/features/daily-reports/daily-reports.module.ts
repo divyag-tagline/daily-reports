@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DailyReportsRoutingModule } from './daily-reports-routing.module';
 import { DailyReportComponent } from './daily-report/daily-report.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { DailyReportComponent } from './daily-report/daily-report.component';
   ],
   imports: [
     CommonModule,
-    DailyReportsRoutingModule
+    DailyReportsRoutingModule,
+    ReactiveFormsModule,
   ]
 })
 export class DailyReportsModule { }

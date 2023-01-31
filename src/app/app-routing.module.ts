@@ -6,12 +6,13 @@ import { HttpClientComponent } from './features/http/http-client/http-client.com
 const routes: Routes = [
   {
     path: 'report',
-    component: DailyReportComponent,
+    // component: DailyReportComponent,
+    loadChildren: () => import('./features/daily-reports/daily-reports.module').then(report => report.DailyReportsModule),
     pathMatch: 'full',
   },
   {
     path: 'http',
-    component: HttpClientComponent,
+    loadChildren:()=> import('./features/http/http.module').then(http=>http.HttpModule)
   },
   {
     path: '**',
