@@ -3,9 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
-import { DailyReportComponent } from './features/daily-report/daily-report.component';
-import { HttpClientComponent } from './features/http-client/http-client.component';
+import { DailyUpdatesComponent } from './features/daily-updates/daily-updates.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,8 +12,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     DailyUpdatesComponent,
-    DailyReportComponent,
-    HttpClientComponent,
   ],
   imports: [
     BrowserModule,

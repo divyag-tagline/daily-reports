@@ -152,7 +152,7 @@ export class HttpClientComponent implements OnInit {
         this.httpClientService.addUser(details).subscribe(
           (res) => {
             if (res) {
-              this.dataStore.push(res);
+              this.usersData.push(res);
               this.toastr.success('Add Record Successfully !');
             }
           },
