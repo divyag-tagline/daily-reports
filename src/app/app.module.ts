@@ -7,7 +7,7 @@ import { DailyUpdatesComponent } from './features/daily-updates/daily-updates.co
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthInterceptor } from './shared/auth.interceptor';
+import { AuthInterceptor } from './shared/Interceptor/auth.interceptor';
 import { DailyReportsModule } from './features/daily-reports/daily-reports.module';
 import { SharedModule } from './shared/shared.module';
 
