@@ -20,7 +20,7 @@ export class HttpClientService {
   }
 
   displyUser():Observable<any> {
-    return this.http.get(`${environment.config}`);
+    return this.http.get(`${environment.baseURL}/users`);
   }
 
   deleteUser(index: number): Observable<any> {

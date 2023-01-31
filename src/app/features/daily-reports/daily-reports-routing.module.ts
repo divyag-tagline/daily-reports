@@ -6,6 +6,9 @@ const routes: Routes = [
   {
     path:'report',
     component:DailyReportComponent
+  },{
+    path:'**',
+    component:DailyReportComponent
   }
 ];
 

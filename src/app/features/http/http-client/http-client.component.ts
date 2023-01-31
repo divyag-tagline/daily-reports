@@ -5,6 +5,7 @@ import { BehaviorSubject, map, Observable, Observer, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClientService } from './http-client.service';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 export interface User {
   id: number;
   name: string;
@@ -57,13 +58,16 @@ export class HttpClientComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private httpClientService: HttpClientService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private activatedRoute:ActivatedRoute
   ) {
     this.createUserForm();
+    // console.log('this.activatedRoute :>> ',this.activatedRoute.snapshot.data['allDetails'] );
+    this.usersData = this.activatedRoute.snapshot.data['allDetails']
   }
 
   ngOnInit(): void {
-    this.displayDetails();
+    // this.displayDetails();
   }
   createUserForm() {
     this.userDetails = this.formBuilder.group({
@@ -78,44 +82,41 @@ export class HttpClientComponent implements OnInit {
     return this.userDetails.controls;
   }
 
-  public displayDetails() {
-    //observerable with observer
+  // public displayDetails() {
+  //   //observerable with observer
 
-    // this.httpClientService
-    //   .displyUser()
-    //   .pipe(map((users: any) => users.map((user: any) => console.log(user))));
-    this.httpClientService.displyUser().subscribe(
-      (res) => {
-        this.usersData = res;
+  //   // this.httpClientService
+  //   //   .displyUser()
+  //   //   .pipe(map((users: any) => users.map((user: any) => console.log(user))));
+  //   this.httpClientService.displyUser().subscribe(
+  //     (res) => {
+  //       this.usersData = res;
 
-        // let customeObservable = Observable.create((observer: Observer<any>) => {
-        //   setInterval(()=>{
-        //     observer.next(this.usersData);
-        //     observer.complete();
-
-        //   },1000)
-        //   return {
-        //     unsubscribe():void {
-        //       console.log('unsubscribe');
-        //     },
-
-        //   };
-
-        // });
-        // customeObservable.subscribe({
-        //   next(res: any) {
-        //     console.log('res :>> ', res);
-        //     this.dataStore = res;
-        //   },
-        //   complete() {
-        //     console.log('Finished sequence');
-        //   },
-        // });
-        // console.log('this.dataStore :>> ', this.dataStore);
-      },
-      (err) => this.toastr.error(err.message)
-    );
-  }
+  //       // let customeObservable = Observable.create((observer: Observer<any>) => {
+  //       //   setInterval(() => {
+  //       //     observer.next(this.usersData);
+  //       //     observer.complete();
+  //       //   }, 1000);
+  //       //   return {
+  //       //     unsubscribe(): void {
+  //       //       console.log('unsubscribe');
+  //       //     },
+  //       //   };
+  //       // });
+  //       // customeObservable.subscribe({
+  //       //   next(res: any) {
+  //       //     console.log('res :>> ', res);
+  //       //     this.dataStore = res;
+  //       //   },
+  //       //   complete() {
+  //       //     console.log('Finished sequence');
+  //       //   },
+  //       // });
+  //       // console.log('this.dataStore :>> ', this.dataStore);
+  //     },
+  //     (err) => this.toastr.error(err.message)
+  //   );
+  // }
 
   addUser() {
     if (this.userDetails.invalid) {
@@ -133,7 +134,7 @@ export class HttpClientComponent implements OnInit {
             (this.usersData[this.editId] = res),
             this.toastr.info('Update Record Successfully !')
           ),
-          (err) => this.toastr.error(err.message)
+          (err) => this.toastr.error(err.Message)
         );
         this.toggle = false;
         this.editId = 0;
@@ -153,7 +154,7 @@ export class HttpClientComponent implements OnInit {
               localStorage.setItem('token', this.accessToken);
             }
           },
-          (err) => this.toastr.error(err.message)
+          (err) => this.toastr.error(err.Message)
         );
         this.submitted = false;
       }
@@ -172,7 +173,7 @@ export class HttpClientComponent implements OnInit {
         this.usersData.splice(this.deleteIndex, 1),
           this.toastr.success('Your Record has been deleted.. ');
       },
-      (err) => this.toastr.error(err.message)
+      (err) => this.toastr.error(err.Message)
     );
   }
 

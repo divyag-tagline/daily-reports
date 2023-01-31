@@ -7,12 +7,16 @@ const routes: Routes = [
   {
     path: 'report',
     // component: DailyReportComponent,
-    loadChildren: () => import('./features/daily-reports/daily-reports.module').then(report => report.DailyReportsModule),
+    loadChildren: () =>
+      import('./features/daily-reports/daily-reports.module').then(
+        (report) => report.DailyReportsModule
+      ),
     pathMatch: 'full',
   },
   {
     path: 'http',
-    loadChildren:()=> import('./features/http/http.module').then(http=>http.HttpModule)
+    loadChildren: () =>
+      import('./features/http/http.module').then((http) => http.HttpModule),
   },
   {
     path: '**',
