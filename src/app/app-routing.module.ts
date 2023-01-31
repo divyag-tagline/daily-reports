@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DailyReportComponent } from './daily-report/daily-report.component';
-import { HttpClientComponent } from './http-client/http-client.component';
-import { ProductComponent } from './product/product.component';
+import { DailyReportComponent } from './features/daily-report/daily-report.component';
+import { HttpClientComponent } from './features/http-client/http-client.component';
 
 const routes: Routes = [
   {
@@ -13,12 +12,7 @@ const routes: Routes = [
   {
     path: 'http',
     component: HttpClientComponent,
-    // component:ProductComponent
   },
-  // {
-  //   path:'',
-  //   loadChildren: () => import('./product/product.module').then(product => product.ProductModule)
-  // },
   {
     path: '**',
     redirectTo: 'report',

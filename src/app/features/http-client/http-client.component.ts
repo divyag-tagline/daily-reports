@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, map, Observable, Observer } from 'rxjs';
+import { BehaviorSubject, map, Observable, Observer, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClientService } from './http-client.service';
 import { HttpClient } from '@angular/common/http';
@@ -48,8 +48,9 @@ export class HttpClientComponent implements OnInit {
   patchDetailsId!: number;
   deleteIndex!: number;
   toggle: boolean = false;
+  private detail = Subscription;
   private _todos = new BehaviorSubject<User[]>([]);
-  public dataStore: User[] = [];
+  dataStore: any;
   readonly todos = this._todos.asObservable();
 
   constructor(
@@ -61,9 +62,12 @@ export class HttpClientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.displayDetails();
+    
   }
 
+  ngAfterContentInit(){
+    this.displayDetails();
+  }
   createUserForm() {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
@@ -79,26 +83,43 @@ export class HttpClientComponent implements OnInit {
 
   public displayDetails() {
     //observerable with observer
-    let customeObservable = Observable.create((observer: Observer<any>) => {
-      setInterval(() => {
-        observer.next(this.usersData);
-        observer.complete();
-      }, 9000);
-    });
-
-    customeObservable.subscribe((data: any) => {
-      this.dataStore = data;
-      console.log('this.dataStore :>> ', this.dataStore);
-    });
+   
+    
     // this.httpClientService
     //   .displyUser()
     //   .pipe(map((users: any) => users.map((user: any) => console.log(user))));
     this.httpClientService.displyUser().subscribe(
       (res) => {
         this.usersData = res;
+        // let customeObservable = Observable.create((observer: Observer<any>) => {
+        //   setInterval(()=>{
+        //     observer.next(this.usersData);
+        //     observer.complete();
+
+        //   },1000)
+        //   return {
+        //     unsubscribe():void {
+        //       console.log('unsubscribe');
+        //     },
+            
+        //   };
+          
+        // });
+        // customeObservable.subscribe({
+        //   next(res: any) {
+        //     console.log('res :>> ', res);
+        //     this.dataStore = res;
+        //   },
+        //   complete() {
+        //     console.log('Finished sequence');
+        //   },
+        // });
+        // console.log('this.dataStore :>> ', this.dataStore);
       },
       (err) => this.toastr.error(err.message)
-    );
+      
+      );
+      
   }
 
   addUser() {
@@ -159,11 +180,10 @@ export class HttpClientComponent implements OnInit {
   }
 
   handleEdit(details: any, index: number) {
-    
     this.userDetails.patchValue(details);
     this.editId = details.id;
-    if(details.invalid){
-      this.submitted = true
+    if (details.invalid) {
+      this.submitted = true;
     }
     this.detailsId = index;
     this.toggle = true;
