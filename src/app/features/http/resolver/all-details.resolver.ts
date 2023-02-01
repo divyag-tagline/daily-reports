@@ -5,7 +5,7 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { HttpClientService } from './http-client/http-client.service';
+import { HttpClientService } from '../component/http-client/http-client.service';
 
 @Injectable({
   providedIn: 'root'

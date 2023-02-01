@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, map, Observable, Observer, Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { BehaviorSubject, Observable, Observer, Subscription } from 'rxjs';
 import { HttpClientService } from './http-client.service';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 export interface User {
   id: number;
@@ -63,7 +61,7 @@ export class HttpClientComponent implements OnInit {
   ) {
     this.createUserForm();
     // console.log('this.activatedRoute :>> ',this.activatedRoute.snapshot.data['allDetails'] );
-    this.usersData = this.activatedRoute.snapshot.data['allDetails']
+    this.usersData = this.activatedRoute.snapshot.data['allDetails'];
   }
 
   ngOnInit(): void {

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DailyReportComponent } from './features/daily-reports/daily-report/daily-report.component';
-import { HttpClientComponent } from './features/http/http-client/http-client.component';
+import { DailyReportComponent } from './features/daily-reports/component/daily-report/daily-report.component';
+import { HttpClientComponent } from './features/http/component/http-client/http-client.component';
 
 const routes: Routes = [
   {

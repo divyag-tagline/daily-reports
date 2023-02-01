@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AllDetailsResolver } from './all-details.resolver';
-import { HttpClientComponent } from './http-client/http-client.component';
+import { AllDetailsResolver } from './resolver/all-details.resolver';
+import { HttpClientComponent } from './component/http-client/http-client.component';
 
 const routes: Routes = [
   {

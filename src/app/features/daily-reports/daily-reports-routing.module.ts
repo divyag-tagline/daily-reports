@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DailyReportComponent } from './daily-report/daily-report.component';
+import { DailyReportComponent } from './component/daily-report/daily-report.component';
 
 const routes: Routes = [
   {
