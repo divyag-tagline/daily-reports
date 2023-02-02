@@ -14,11 +14,11 @@
         role="tab"
         aria-controls="profile"
         aria-selected="true"
-        >{{ header.name }}</a
+        >{{header.name}}</a
       >
     </li>
   </ng-container>
-</ul> 
+</ul>
 <!-- </ng-container> -->
 <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
 <ng-container *ngFor="let header of headers"> 
@@ -58,5 +58,9 @@
     </div>
   </div>
 </nav> -->
-
+<div class="row justify-content-center d-flex">
+<div class="loading" *ngIf="toggle">
+	<i class="fas fa-spin fa-spinner fa-5x"></i>
+</div>
+</div>
 <router-outlet></router-outlet>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,11 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './shared/Interceptor/auth.interceptor';
 import { DailyReportsModule } from './features/daily-reports/daily-reports.module';
 import { SharedModule } from './shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,13 +24,17 @@ import { SharedModule } from './shared/shared.module';
       timeOut: 3000,
       preventDuplicates: true,
     }),
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' })
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
   providers: [
     {
-      provide:HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

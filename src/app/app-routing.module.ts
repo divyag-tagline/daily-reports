@@ -11,7 +11,7 @@ const routes: Routes = [
       import('./features/daily-reports/daily-reports.module').then(
         (report) => report.DailyReportsModule
       ),
-    pathMatch: 'full',
+    
   },
   {
     path: 'http',
@@ -21,6 +21,7 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'report',
+    pathMatch: 'full',
   },
 ];
 

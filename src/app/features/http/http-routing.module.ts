@@ -9,10 +9,6 @@ const routes: Routes = [
     component: HttpClientComponent,
     resolve: { allDetails: AllDetailsResolver },
   },
-  // {
-  //   path:'http/:id',
-  //   component:HttpClientComponent
-  // },
   {
     path: '**',
     redirectTo: 'http',

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DailyReportsRoutingModule } from './daily-reports-routing.module';
 import { DailyReportComponent } from './component/daily-report/daily-report.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DailyUpdatesComponent } from './daily-updates/daily-updates.component';
+import { DailyUpdatesComponent } from './component/daily-updates/daily-updates.component';
 
 
 @NgModule({

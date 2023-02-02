@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, Observer, Subscription } from 'rxjs';
 import { HttpClientService } from './http-client.service';
 import { ActivatedRoute } from '@angular/router';
+import '@angular/common/locales/global/fr';
 export interface User {
   id: number;
   name: string;
@@ -52,21 +53,20 @@ export class HttpClientComponent implements OnInit {
   private detail = Subscription;
   private _todos = new BehaviorSubject<User[]>([]);
   dataStore: any;
+  pi : any = 3.14159265359;
   readonly todos = this._todos.asObservable();
   constructor(
     private formBuilder: FormBuilder,
     private httpClientService: HttpClientService,
     private toastr: ToastrService,
-    private activatedRoute:ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {
     this.createUserForm();
-    // console.log('this.activatedRoute :>> ',this.activatedRoute.snapshot.data['allDetails'] );
     this.usersData = this.activatedRoute.snapshot.data['allDetails'];
   }
 
-  ngOnInit(): void {
-    // this.displayDetails();
-  }
+  ngOnInit(): void {}
+
   createUserForm() {
     this.userDetails = this.formBuilder.group({
       name: ['', Validators.required],
@@ -79,7 +79,7 @@ export class HttpClientComponent implements OnInit {
   get useDetailsControls() {
     return this.userDetails.controls;
   }
-
+  //display data with function
   // public displayDetails() {
   //   //observerable with observer
 
@@ -148,8 +148,6 @@ export class HttpClientComponent implements OnInit {
             if (res) {
               this.usersData.push(res);
               this.toastr.success('Add Record Successfully !');
-              this.accessToken = 'fFAGRNJru1FTz70BzhT3Zg';
-              localStorage.setItem('token', this.accessToken);
             }
           },
           (err) => this.toastr.error(err.Message)

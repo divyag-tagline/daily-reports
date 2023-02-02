@@ -47,7 +47,7 @@ ul {
 }
 
 .nav-tabs li {
-    width: 50%;
+    width: 33.33%;
 }
 
 body {
@@ -88,3 +88,20 @@ a#profile-tab {
     border-bottom: 1px solid #FBEEE8;
     background-color: #FBEEE8;
 }
+
+.loading {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  
+  .loading i {
+    color: white;
+    position: relative;
+    top:50%;
+    left: 50%;
+    transform: translate(-70%, -70%);
+  }

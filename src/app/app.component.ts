@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent, RouterLinkActive } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subject, takeUntil } from 'rxjs';
 
 interface Headers {
   name: string;
@@ -21,7 +23,18 @@ export class AppComponent {
     {
       name: 'Registration Form',
       link: 'http',
-    },
+    }
   ];
-
+  unsubscribe = new Subject<void>();
+  constructor(private router: Router){
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.toggle = true;
+        console.log("after",Date.now())
+      } else if (event instanceof NavigationEnd) {
+        this.toggle = false;
+        console.log("before",Date.now())
+      }
+    });
+  }
 }

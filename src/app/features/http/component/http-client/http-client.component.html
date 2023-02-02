@@ -1,3 +1,4 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 <div class="update-label">
   <h2>Registraion Form</h2>
 </div>
@@ -99,8 +100,6 @@
                 class="form-control"
                 id="phone"
                 name="phone"
-                maxlength="10"
-                minlength="10"
                 (keypress)="blockCharacter($event)"
                 formControlName="phone"
               />
@@ -155,10 +154,13 @@
       <tbody>
         <ng-container *ngFor="let userData of usersData; let i = index">
           <tr>
-            <td>{{ userData.name }}</td>
+            <td>{{ userData.name | titlecase }}</td>
             <td>{{ userData.username }}</td>
-            <td>{{ userData.email }}</td>
+            <td>{{ userData.email | lowercase }}</td>
             <td>{{ userData.phone }}</td>
+            <td>{{ '3.14159265359' | number : "4.3-5" : "fr" }}</td>
+            <td>{{ '3.14159265359' | percent:'4.3-5'}}</td>
+            <td>{{ '3.14159265359' |  currency:'IND'}}</td>
             <td>
               <button
                 class="btn btn-outline-success"
