@@ -11,6 +11,7 @@ import { DailyReportsModule } from './features/daily-reports/daily-reports.modul
 import { SharedModule } from './shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
