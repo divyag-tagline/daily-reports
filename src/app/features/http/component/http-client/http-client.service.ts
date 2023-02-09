@@ -35,5 +35,10 @@ export class HttpClientService {
     return this.http.patch(`${environment.baseURL}/users/${index}`, data);
   }
 
+  getDataPromise(): Promise<any>{
+    return this.http.get(`${environment.baseURL}/users`).toPromise().then((res:any) => {
+      return Promise.resolve(res)
+    } )
+  }
 
 }

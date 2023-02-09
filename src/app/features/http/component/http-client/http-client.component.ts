@@ -53,7 +53,7 @@ export class HttpClientComponent implements OnInit {
   private detail = Subscription;
   private _todos = new BehaviorSubject<User[]>([]);
   dataStore: any;
-  pi : any = 3.14159265359;
+  pi: any = 3.14159265359;
   readonly todos = this._todos.asObservable();
   constructor(
     private formBuilder: FormBuilder,
@@ -80,6 +80,13 @@ export class HttpClientComponent implements OnInit {
     return this.userDetails.controls;
   }
   //display data with function
+  //with promise
+  // public displayDetails() {
+  //   console.log('working!!!');
+  //   this.httpClientService.getDataPromise().then((res: any) => {
+  //     console.log('res :>> ', res);
+  //   });
+
   // public displayDetails() {
   //   //observerable with observer
 
